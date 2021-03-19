@@ -1,0 +1,27 @@
+<mat-nav-list *ngIf="!isAuthenticated">
+  <h3 mat-subheader>Geral</h3>
+  <a mat-list-item routerLink="/reviews/recent">Resenhas recém criadas</a>
+  <a mat-list-item routerLink="/reviews/liked">Resenhas mais curtidas</a>
+  <a mat-list-item routerLink="/books/recent">Livros recém lidos</a>
+  <a mat-list-item routerLink="/users">Leitores</a>
+</mat-nav-list>
+
+<mat-nav-list *ngIf="isAuthenticated">
+  <h3 mat-subheader>Geral</h3>
+  <a mat-list-item routerLink="/reviews/recent">Resenhas recém criadas</a>
+  <a mat-list-item routerLink="/reviews/liked">Resenhas mais curtidas</a>
+  <a mat-list-item routerLink="/books/recent">Livros recém lidos</a>
+  <a mat-list-item routerLink="/users">Leitores</a>
+  <mat-divider></mat-divider>
+  <h3 mat-subheader>Meu Perfil</h3>
+  <a mat-list-item routerLink="user/reviews/favorites">Resenhas favoritas</a>
+  <a mat-list-item routerLink="user/reviews/mine">Minhas resenhas</a>
+  <a mat-list-item routerLink="user/books/read">Livros lidos</a>
+  <a mat-list-item routerLink="user/books/wishlist">Livros a ler</a>
+
+  <mat-divider></mat-divider>
+  <h3 mat-subheader>Seguindo</h3>
+  <a mat-list-item routerLink="user/following">Leitores</a>
+  <a mat-list-item routerLink="user/reviews/following">Resenhas</a>
+  <a mat-list-item routerLink="user/messages">Mensagens</a>
+</mat-nav-list>

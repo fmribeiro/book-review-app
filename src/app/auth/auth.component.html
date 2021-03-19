@@ -1,0 +1,63 @@
+<ng-template appPlaceHolder></ng-template>
+<div fxLayoutAlign="space-around center" fxLayout="column" fxFlex="100">
+  <div class="form-box">
+    <div *ngIf="isLoading" style="text-align: center">
+      <app-loading-spinner></app-loading-spinner>
+    </div>
+    <form #authForm="ngForm" (ngSubmit)="onSubmit(authForm)" *ngIf="!isLoading">
+
+      <p *ngIf="!isLoginMode">
+        <mat-form-field class="form-field">
+          <mat-label>Nome</mat-label>
+          <input matInput type="text" name="name" ngModel ng- required minlength="10" />
+        </mat-form-field>
+      </p>
+
+      <p *ngIf="!isLoginMode">
+        <mat-form-field class="form-field">
+          <mat-label>apelido</mat-label>
+          <input matInput type="text" name="nickname" ngModel minlength="8" maxlength="12" required />
+        </mat-form-field>
+      </p>
+
+      <p>
+        <mat-form-field class="form-field">
+          <mat-label>E-mail</mat-label>
+          <input matInput type="email" name="email" ngModel required email />
+        </mat-form-field>
+      </p>
+
+      <p>
+        <mat-form-field class="form-field">
+          <mat-label>Password</mat-label>
+          <mat-pass-toggle-visibility #toggle matSuffix></mat-pass-toggle-visibility>
+          <input matInput #password [type]="toggle.type" name="password" id="password" ngModel minlength="8" maxlength="12" required />
+          <mat-hint align="end" aria-live="polite">
+            {{password.value.length}} / 12
+          </mat-hint>
+        </mat-form-field>
+      </p>
+
+      <ng-template [ngIf]="!isLoginMode">
+        <mat-password-strength #passwordComponent [password]="password.value" warnThreshold="21" accentThreshold="81" (onStrengthChanged)="onCalculatePasswordStrength($event)">
+        </mat-password-strength>
+
+        <mat-password-strength-info *ngIf="passwordStrength > 21" [passwordComponent]="passwordComponent" [lowerCaseCriteriaMsg]="'LOWER_CASE_CRITERIA_MSG' | translate" [upperCaseCriteriaMsg]="'UPPER_CASE_CRITERIA_MSG'| translate"
+          [digitsCriteriaMsg]="'DIGITS_CRITERIA_MSG'| translate" [specialCharsCriteriaMsg]="'SPECIAL_CHARS_CRITERIA_MSG' | translate" [minCharsCriteriaMsg]="'MIN_CHARS_CRITERIA_MSG' | translate">
+        </mat-password-strength-info>
+      </ng-template>
+
+      <div style="margin-top: 10px">
+        <p>
+          <button mat-raised-button type="submit" [disabled]="!authForm.valid || (!this.isLoginMode && this.passwordStrength < 81)" title="Login">
+            {{ isLoginMode ? "Login" : "Cadastro" }}
+          </button>
+          |
+          <button type="button" mat-raised-button (click)="onSwitchMode()" title="Sign Up">
+            Ir para {{ isLoginMode ? "Cadastro" : "Login" }}
+          </button>
+        </p>
+      </div>
+    </form>
+  </div>
+</div>

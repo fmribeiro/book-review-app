@@ -1,0 +1,23 @@
+.user-box {
+  padding-left: 10px;
+  padding-top: 10px;
+}
+
+.user {
+  padding-right: 10px;
+  margin-bottom: 10px;
+}
+
+.user-card {
+  height: 16rem;
+}
+
+.user-card-img {
+  max-width: 100%;
+  height: 10rem;
+  border-radius: 10%;
+}
+
+.one-word-per-line {
+  word-spacing: 20rem;
+}

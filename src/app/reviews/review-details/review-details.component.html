@@ -1,0 +1,11 @@
+<div *ngIf="review">
+  <h2 mat-dialog-title>{{ data.review.bookTitle }}</h2>
+  <mat-dialog-content class="mat-typography">
+    <div class="review-box" fxLayoutAlign="space-strecht center" fxLayout="column" fxFlex="100">
+      <p>{{ data.review.review }}</p>
+    </div>
+  </mat-dialog-content>
+  <mat-dialog-actions align="end">
+    <button mat-button mat-dialog-close>Fechar</button>
+  </mat-dialog-actions>
+</div>

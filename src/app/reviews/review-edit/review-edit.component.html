@@ -1,0 +1,42 @@
+<ng-template appPlaceHolder></ng-template>
+
+<div fxLayoutAlign="space-around center" fxLayout="column" fxFlex="100">
+  <h3 *ngIf="!allBooksRead">
+    Nenhum livro foi adicionado, para criar uma resenha é preciso adicionar um
+    livro.
+  </h3>
+
+  <div class="form-box" *ngIf="editedReview">
+    <form #reviewForm="ngForm">
+      <p>
+        <mat-form-field appearance="fill" class="form-field">
+          <mat-label>Livro lido</mat-label>
+          <mat-select name="bookTitle" [(ngModel)]="editedReview.bookTitle" required>
+            <mat-option *ngFor="let book of allBooksRead" [value]="book">
+              {{ book }}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+      </p>
+
+      <p>
+        <mat-form-field appearance="fill" class="form-field">
+          <mat-label>Resenha do livro. Min: 150 caracteres</mat-label>
+          <textarea matInput name="review" [(ngModel)]="editedReview.review" ng-min rows="30" minlength="150" required></textarea>
+        </mat-form-field>
+      </p>
+
+      <div>
+        <p>
+          <button mat-raised-button type="button" [disabled]="!reviewForm.valid" *ngIf="!startEditing" (click)="createReview(reviewForm)" title="Salvar">
+            Salvar
+          </button>
+
+          <button mat-raised-button type="button" [disabled]="!reviewForm.valid" *ngIf="startEditing" (click)="updateReview(reviewForm)" title="Atualizar">
+            Atualizar
+          </button>
+        </p>
+      </div>
+    </form>
+  </div>
+</div>

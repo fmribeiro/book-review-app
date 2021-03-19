@@ -1,0 +1,34 @@
+.user-box {
+  padding-left: 10px;
+  padding-top: 10px;
+}
+
+.user {
+  padding-right: 10px;
+  margin-bottom: 10px;
+  text-align: center;
+}
+
+.user-card {
+  height: 25rem;
+}
+
+.user-card-img {
+  max-width: 100%;
+  height: 10rem;
+  border-radius: 10%;
+}
+
+.one-word-per-line {
+  text-transform: capitalize;
+  word-spacing: 20rem;
+}
+
+a {
+  text-decoration: none;
+  color: black;
+}
+
+a:hover {
+  color: #3f51b5;
+}

@@ -1,0 +1,40 @@
+/* You can add global styles to this file, and also import other style files */
+/* @import "@angular/material/prebuilt-themes/deeppurple-amber.css"; */
+@import "@angular/material/prebuilt-themes/indigo-pink.css";
+/* @import "@angular/material/prebuilt-themes/pink-bluegrey.css"; */
+/* @import "@angular/material/prebuilt-themes/purple-green.css"; */
+
+html,
+body {
+  height: 100%;
+}
+
+body {
+  margin: 0;
+  font-family: Roboto, "Helvetica Neue", sans-serif;
+}
+
+/** Change .mat-card to be display inline-flex.
+Make it flex column so header, content, footer has a
+flex direction of column. **/
+.mat-card {
+  display: flex; /** <-- Add this **/
+  flex-direction: column; /** <-- Add this **/
+}
+
+/** Add flex-shrink to be 0 so the header should not be clipped or
+shrink if the parent card height changes **/
+.mat-card-header {
+  display: flex;
+  flex-direction: row;
+  flex-shrink: 0; /** <-- Add this **/
+}
+
+/** Make the card content to be flex grow factor of 1,
+this is going to scale to your inline height or custom height.
+Content should scroll within the card height and not expand the card's height.  **/
+.mat-card-content {
+  flex-grow: 1; /** <-- Add this **/
+  overflow: auto; /** <-- Add this **/
+  /* outline: 1px solid red; */
+}

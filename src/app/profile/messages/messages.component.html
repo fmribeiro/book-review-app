@@ -1,0 +1,17 @@
+<mat-tab-group [selectedIndex]="tabIndex">
+  <mat-tab label="Enviar Mensagem">
+    <app-message-sender (wasMessageSended)="onSendMessage()"></app-message-sender>
+  </mat-tab>
+
+  <mat-tab label="Recebidas">
+    <app-message-viewer [messages]="receivedMessages" [isSended]="false"></app-message-viewer>
+  </mat-tab>
+
+  <mat-tab label="Enviadas">
+      <app-message-viewer
+        [messages]="sendedMessages"
+        [isSended]="true"
+        >
+    </app-message-viewer>
+  </mat-tab>
+</mat-tab-group>

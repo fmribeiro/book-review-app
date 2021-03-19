@@ -1,0 +1,69 @@
+<!-- Conteudo -->
+<div style="margin-left: 10px; margin-top: 10px" *ngIf="!users">
+  <h3>Nenhum usuário foi adicionado a lista</h3>
+</div>
+<div
+  fxLayoutAlign.lt-sm="space-around center"
+  fxLayoutAlign.lt-md="space-strecht start"
+  fxLayoutAlign.lt-lg="space-strecht start"
+  fxLayoutAlign.lt-xl="space-strecht start"
+  fxLayoutAlign.gt-lg="space-strecht start"
+  fxLayout.lt-sm="row wrap"
+  fxLayout.lt-md="row wrap"
+  fxLayout.lt-lg="row wrap"
+  fxLayout.lt-xl="row wrap"
+  fxLayout.gt-lg="row wrap"
+  class="user-box"
+>
+  <div
+    fxFlex.lt-md="33"
+    fxFlex.lt-lg="25"
+    fxFlex.lt-xl="20"
+    fxFlex.gt-lg="14"
+    fxFlex.lt-sm="100"
+    class="user"
+    *ngFor="let user of users; index as i"
+  >
+    <mat-card class="user-card">
+      <div id="card-header" style="height: 20%">
+        <mat-card-title class="one-word-per-line"
+          ><a [routerLink]="['/user/profile']" [queryParams]="{ user: i }">{{
+            user.name
+          }}</a>
+        </mat-card-title>
+        <mat-card-subtitle>{{ user.nickname }}</mat-card-subtitle>
+      </div>
+
+      <div id="card-info" style="display: block; height: 65%; margin-top: 1rem">
+        <img class="user-card-img" [src]="'assets/img/user.png'" />
+        <mat-card-content style="margin-top: 5px">
+          <p>Livros lidos: {{ user.booksRead }}</p>
+          <p>Resenhas feitas: {{ user.reviewsDone }}</p>
+          <p>Seguindo: {{ user.users }}</p>
+        </mat-card-content>
+      </div>
+
+      <div id="card-bottom" style="display: flex; height: 15%">
+        <mat-card-actions *ngIf="isAuthenticated">
+          <button
+            *ngIf="canFollow && !user.isFollowingUser"
+            mat-button
+            title="Seguir usuário"
+            (click)="followUser(i)"
+          >
+            <mat-icon>person_add</mat-icon>
+          </button>
+
+          <button
+            *ngIf="!canFollow"
+            mat-button
+            title="Deixar de seguir"
+            (click)="unfollowUser(i)"
+          >
+            <mat-icon>person_remove</mat-icon>
+          </button>
+        </mat-card-actions>
+      </div>
+    </mat-card>
+  </div>
+</div>

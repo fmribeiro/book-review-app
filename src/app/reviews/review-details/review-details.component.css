@@ -1,0 +1,16 @@
+.review-box {
+  margin-top: 1rem;
+  margin-left: 1rem;
+  margin-right: 1rem;
+}
+
+h2 {
+  text-align: center;
+  /* text-decoration: underline; */
+  text-transform: capitalize;
+}
+
+p {
+  text-indent: 2rem;
+  white-space: pre-wrap;
+}

@@ -1,0 +1,26 @@
+/* .content-container {
+  display: flex;
+  flex-direction: column;
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  margin-top: 7rem;
+} */
+
+.content-container {
+  display: flex;
+  flex-direction: column;
+  min-height: calc(100% - 13rem);;
+}
+
+height: -o-calc(100% - 7rem); /* opera */
+height: -webkit-calc(100% - 7rem); /* google, safari */
+height: -moz-calc(100% - 7rem); /* firefox */
+
+@media only screen and (max-width: 600px) {
+  .content-container {
+    /* margin-top: 11rem; */
+  }
+}

@@ -1,0 +1,77 @@
+<mat-toolbar color="primary" style="height: 5rem">
+  <div fxHide.gt-sm>
+    <button mat-icon-button>
+      <mat-icon (click)="inputSideNav.toggle()" class="toggle-sidenav-btn">menu</mat-icon>
+    </button>
+  </div>
+
+  <div id="logo">
+    <mat-icon style="font-size: 36px">book</mat-icon>
+  </div>
+  <div fxHide.lt-md><span>&nbsp;&nbsp; Resenhas</span></div>
+
+  <span class="spacer"></span>
+
+  <form #searchForm="ngForm" fxHide.lt-sm>
+    <mat-form-field style="width: 25rem">
+      <mat-label>&nbsp;&nbsp;Buscar resenha</mat-label>
+      <input type="search" name="bookTitle" placeholder="Ex.: Dom Casmurro" aria-label="Usuário" matInput [formControl]="searchField" style="width: 100%" />
+      <mat-icon matPrefix>search</mat-icon>
+    </mat-form-field>
+  </form>
+
+  <h1 style="font-weight: 300; margin-left: 15px" *ngIf="isAuthenticated">
+    Olá, {{ getUserFirstName() }}
+  </h1>
+  <button mat-icon-button routerLink="/auth" *ngIf="!isAuthenticated" title="Login">
+    <mat-icon>login</mat-icon>
+  </button>
+
+  <button mat-icon-button [matMenuTriggerFor]="menu" *ngIf="isAuthenticated" title="{{ getLoggedUser() ? getLoggedUser().nickname : 'menu' }}">
+    <mat-icon>account_circle</mat-icon>
+  </button>
+  <mat-menu #menu="matMenu">
+    <button mat-menu-item (click)="logout()" title="Sair">
+      <mat-icon>logout</mat-icon>
+      <span>Sair</span>
+    </button>
+  </mat-menu>
+</mat-toolbar>
+
+
+<mat-toolbar style="height: 3rem" color="primary">
+  <h1 style="font-weight: 300">{{ currentPage }}</h1>
+
+  <span class="spacer"></span>
+
+  <ng-template [ngIf]="isAuthenticated">
+    <button mat-button [matMenuTriggerFor]="addMenu" title="Adicionar">
+      <mat-icon>add</mat-icon>
+    </button>
+    <div>
+      <mat-menu #addMenu="matMenu">
+        <button mat-menu-item title="Adicionar resenha" routerLink="user/reviews/create">
+          <mat-icon>reviews</mat-icon>
+          <span>Resenha</span>
+        </button>
+        <button mat-menu-item title="Adicionar livro" routerLink="user/books/create">
+          <mat-icon>book</mat-icon>
+          <span>Livro</span>
+        </button>
+      </mat-menu>
+    </div>
+  </ng-template>
+</mat-toolbar>
+
+
+<mat-toolbar color="primary" fxHide.gt-xs style="height: 4rem">
+  <div class="mobile-form">
+    <form #searchFormMobile="ngForm">
+      <mat-form-field style="width: 25rem">
+        <mat-label>&nbsp;&nbsp;Buscar resenha</mat-label>
+        <input type="search" name="bookTitle" placeholder="Ex.: Dom Casmurro" aria-label="Usuário" matInput [formControl]="searchField" style="width: 100%" />
+        <mat-icon matPrefix>search</mat-icon>
+      </mat-form-field>
+    </form>
+  </div>
+</mat-toolbar>

@@ -1,0 +1,14 @@
+<mat-toolbar color="basic">
+  <span>{{ user.name }}</span>
+</mat-toolbar>
+<mat-tab-group>
+  <mat-tab label="Livros lidos({{ user.books.length }})">
+    <app-books [books]="user.books"></app-books>
+  </mat-tab>
+  <mat-tab label="Resenhas feitas({{ user.reviews.length }})">
+    <app-reviews [reviews]="user.reviews"></app-reviews
+  ></mat-tab>
+  <mat-tab label="Seguindo({{ user.usersFollowing.length }})">
+    <app-following-users [users]="user.usersFollowing"></app-following-users>
+  </mat-tab>
+</mat-tab-group>

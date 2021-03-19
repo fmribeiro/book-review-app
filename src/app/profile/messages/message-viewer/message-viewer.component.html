@@ -1,0 +1,35 @@
+<div
+fxLayoutAlign="space-strecht center"
+fxLayout="column"
+fxFlex.lt-md="100"
+fxFlex.lt-lg="70"
+fxFlex.lt-xl="50"
+fxFlex.gt-lg="40"
+>
+<div
+fxFlex="auto"
+class="message-box"
+*ngFor="let message of messages"
+>
+<mat-card>
+
+  <mat-card-header>
+    <mat-card-title *ngIf="!isSended"
+    >Mensagem recebida de #{{ message.sender }}</mat-card-title
+    >
+    <mat-card-title *ngIf="isSended"
+    >Mensagem enviada para #{{ message.receiver }}</mat-card-title
+    >
+
+    <mat-card-subtitle>{{
+      message.creationDate | date: "dd/MM/yyyy HH:mm"
+    }}</mat-card-subtitle>
+
+  </mat-card-header>
+
+  <mat-card-content style="margin-left: 20px">
+    {{ message.message }}
+  </mat-card-content>
+</mat-card>
+</div>
+</div>

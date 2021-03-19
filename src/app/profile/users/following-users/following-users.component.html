@@ -1,0 +1,31 @@
+<div
+  fxLayoutAlign.lt-sm="space-around center"
+  fxLayoutAlign.lt-md="space-strecht start"
+  fxLayoutAlign.lt-lg="space-strecht start"
+  fxLayoutAlign.lt-xl="space-strecht start"
+  fxLayoutAlign.gt-lg="space-strecht start"
+  fxLayout.lt-sm="row wrap"
+  fxLayout.lt-md="row wrap"
+  fxLayout.lt-lg="row wrap"
+  fxLayout.lt-xl="row wrap"
+  fxLayout.gt-lg="row wrap"
+  class="user-box"
+>
+  <div
+    fxFlex.lt-md="33"
+    fxFlex.lt-lg="25"
+    fxFlex.lt-xl="20"
+    fxFlex.gt-lg="14"
+    fxFlex.lt-sm="60"
+    class="user"
+    *ngFor="let user of users"
+  >
+    <mat-card class="user-card">
+      <mat-card-title class="one-word-per-line"
+        >{{ user.name }}
+      </mat-card-title>
+      <mat-card-subtitle>{{ user.nickname }}</mat-card-subtitle>
+      <img class="user-card-img" [src]="'assets/img/user.png'" />
+    </mat-card>
+  </div>
+</div>

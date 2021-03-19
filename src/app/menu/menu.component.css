@@ -1,0 +1,26 @@
+.sidenav {
+  height: 100%;
+  overflow-x: hidden; /* Disable horizontal scroll */
+  position: fixed;
+  top: 0; /* Stay at the top */
+  bottom: auto;
+  z-index: 1; /* Stay on top */
+  background-color: #b7d7e8;
+}
+
+.sidenav a {
+  padding: 6px 8px 6px 16px;
+  text-decoration: none;
+  font-size: 20px;
+  color: #000;
+  display: block;
+  width: 100%;
+}
+
+.sidenav a:hover {
+  color: #87bdd8;
+}
+
+.sidenav-box {
+  background-color: #cfe0e8;
+}

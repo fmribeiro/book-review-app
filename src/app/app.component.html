@@ -1,0 +1,19 @@
+<!-- <div fxLayout="column"> -->
+<!-- Cabecalho -->
+<app-header [inputSideNav]="sidenav"></app-header>
+
+<mat-sidenav-container class="content-container">
+  <!-- menu lateral -->
+  <mat-sidenav #sidenav opened [mode]="mobileQuery.matches ? 'over' : 'side'">
+    <app-menu></app-menu>
+  </mat-sidenav>
+
+  <!-- conteudo -->
+  <mat-sidenav-content>
+    <router-outlet></router-outlet>
+  </mat-sidenav-content>
+</mat-sidenav-container>
+
+<!-- rodape -->
+<app-footer></app-footer>
+<!-- </div> -->
