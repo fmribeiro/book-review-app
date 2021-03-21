@@ -1,11 +1,11 @@
-import { MediaMatcher } from "@angular/cdk/layout";
-import { ChangeDetectorRef, Component, OnDestroy } from "@angular/core";
-import { TranslateService } from "@ngx-translate/core";
+import { MediaMatcher } from '@angular/cdk/layout';
+import { ChangeDetectorRef, Component, OnDestroy } from '@angular/core';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
-  selector: "app-root",
-  templateUrl: "./app.component.html",
-  styleUrls: ["./app.component.css"]
+  selector: 'app-root',
+  templateUrl: './app.component.html',
+  styleUrls: ['./app.component.css']
 })
 export class AppComponent {
 
@@ -17,10 +17,10 @@ export class AppComponent {
     media: MediaMatcher,
     translate: TranslateService
   ) {
-    translate.setDefaultLang("pt");
-    translate.use("pt");
+    translate.setDefaultLang('pt');
+    translate.use('pt');
 
-    this.mobileQuery = media.matchMedia("(max-width: 960px)");
+    this.mobileQuery = media.matchMedia('(max-width: 960px)');
     this._mobileQueryListener = () => changeDetectorRef.detectChanges();
     this.mobileQuery.addListener(this._mobileQueryListener);
   }

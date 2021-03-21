@@ -1,10 +1,15 @@
-<!-- <div fxLayout="column"> -->
-<!-- Cabecalho -->
 <app-header [inputSideNav]="sidenav"></app-header>
 
-<mat-sidenav-container class="content-container" [hasBackdrop]="true">
+<mat-sidenav-container
+  class="content-container"
+  [hasBackdrop]="mobileQuery.matches ? 'true' : 'false'"
+>
   <!-- menu lateral -->
-  <mat-sidenav #sidenav opened [mode]="mobileQuery.matches ? 'over' : 'side'">
+  <mat-sidenav
+    #sidenav
+    [opened]="mobileQuery.matches ? 'over' : 'side'"
+    [mode]="mobileQuery.matches ? 'over' : 'side'"
+  >
     <app-menu></app-menu>
   </mat-sidenav>
 
@@ -16,4 +21,3 @@
 
 <!-- rodape -->
 <app-footer></app-footer>
-<!-- </div> -->

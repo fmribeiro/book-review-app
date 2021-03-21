@@ -1,34 +1,24 @@
-import { ThrowStmt } from "@angular/compiler";
-import { Component, Injectable, Input, OnDestroy, OnInit } from "@angular/core";
-import { NgForm, FormControl } from "@angular/forms";
-import { MatSidenav } from "@angular/material/sidenav";
-import { NavigationEnd, Router, ActivatedRoute } from "@angular/router";
-import { Observable } from "rxjs";
-import {
-  filter,
-  debounceTime,
-  distinctUntilChanged,
-  startWith,
-  switchMap,
-  map,
-  tap
-} from "rxjs/operators";
-import { Subscription } from "rxjs";
+import { Component, Injectable, Input, OnDestroy, OnInit } from '@angular/core';
+import { FormControl } from '@angular/forms';
+import { MatSidenav } from '@angular/material/sidenav';
+import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
+import { Observable, Subscription } from 'rxjs';
+import { debounceTime, distinctUntilChanged, filter, switchMap } from 'rxjs/operators';
 
-import { AuthService } from "../auth/auth.service";
-import { User } from "../shared/models/user.model";
+import { AuthService } from '../auth/auth.service';
+import { User } from '../shared/models/user.model';
 
 @Component({
-  selector: "app-header",
-  templateUrl: "./header.component.html",
-  styleUrls: ["./header.component.css"]
+  selector: 'app-header',
+  templateUrl: './header.component.html',
+  styleUrls: ['./header.component.css']
 })
-@Injectable({ providedIn: "root" })
+@Injectable({ providedIn: 'root' })
 export class HeaderComponent implements OnInit, OnDestroy {
   @Input() inputSideNav: MatSidenav;
   isAuthenticated = false;
   private userSub: Subscription;
-  currentPage = "";
+  currentPage = '';
 
   searchTerm: Observable<string>;
   searchField = new FormControl();
@@ -37,7 +27,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
     private authService: AuthService,
     private router: Router,
     private activatedRoute: ActivatedRoute
-  ) {}
+  ) { }
 
   ngOnInit() {
     const reviewSearch = this.searchField.valueChanges.pipe(
@@ -82,7 +72,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
     if (!bookTitle) {
       return;
     }
-    this.router.navigate(["/reviews/search/"], { queryParams: { bookTitle } });
+    this.router.navigate(['/reviews/search/'], { queryParams: { bookTitle } });
   }
 
   getLoggedUser(): User {
@@ -94,7 +84,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
   getUserFirstName() {
     if (localStorage.loggedUser) {
       const userName: string = JSON.parse(localStorage.loggedUser).name;
-      return userName.split(" ")[0];
+      return userName.split(' ')[0];
     }
   }
 }
