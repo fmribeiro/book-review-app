@@ -14,7 +14,7 @@ export class ReviewService {
   private reviews: Review[] = [];
   @ViewChild(PlaceHolderDirective, { static: false }) alertHost: PlaceHolderDirective;
 
-  getReviews(): Review[]{
+  getReviews(): Review[] {
     console.log('getReviews');
     return this.reviews.slice();
   }
@@ -53,16 +53,16 @@ export class ReviewService {
     const usersFollow = [];
     this.reviews = [];
     this.userService.mountFollowUsersProfile(this.utilsService.getLoggedUserId())
-    .subscribe(
-      users => {
-        users.map(user => {
-          user.reviews.map(review => {
-            review.nickname = user.nickname;
-            this.reviews.push(review);
+      .subscribe(
+        users => {
+          users.map(user => {
+            user.reviews.map(review => {
+              review.nickname = user.nickname;
+              this.reviews.push(review);
+            });
           });
-        });
-      }
-    );
+        }
+      );
   }
 
   fetchFavoritesReviews(): Observable<Review[]> {
@@ -150,7 +150,7 @@ export class ReviewService {
       .pipe(
         catchError(this.utilsService.handleError),
         map(reviews => {
-          return reviews._embedded.reviews.map(review => {
+          return reviews.map(review => {
             return this.mountReview(review);
           });
         }),
