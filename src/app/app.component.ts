@@ -20,7 +20,7 @@ export class AppComponent {
     translate.setDefaultLang("pt");
     translate.use("pt");
 
-    this.mobileQuery = media.matchMedia("(max-width: 960)");
+    this.mobileQuery = media.matchMedia("(max-width: 960px)");
     this._mobileQueryListener = () => changeDetectorRef.detectChanges();
     this.mobileQuery.addListener(this._mobileQueryListener);
   }

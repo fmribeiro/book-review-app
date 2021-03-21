@@ -2,7 +2,7 @@
 <!-- Cabecalho -->
 <app-header [inputSideNav]="sidenav"></app-header>
 
-<mat-sidenav-container class="content-container">
+<mat-sidenav-container class="content-container" [hasBackdrop]="true">
   <!-- menu lateral -->
   <mat-sidenav #sidenav opened [mode]="mobileQuery.matches ? 'over' : 'side'">
     <app-menu></app-menu>

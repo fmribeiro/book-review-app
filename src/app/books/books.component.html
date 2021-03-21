@@ -1,17 +1,38 @@
 <div style="margin-left: 10px; margin-top: 10px" *ngIf="!books">
   <h3>Nenhum livro foi adicionado</h3>
 </div>
-<div fxLayoutAlign.lt-sm="space-around center" fxLayoutAlign.lt-md="space-strecht start" fxLayoutAlign.lt-lg="space-strecht start" fxLayoutAlign.lt-xl="space-strecht start" fxLayoutAlign.gt-lg="space-strecht start" fxLayout.lt-sm="column"
-  fxLayout.lt-md="row wrap" fxLayout.lt-lg="row wrap" fxLayout.lt-xl="row wrap" fxLayout.gt-lg="row wrap" class="book-box">
-  <div fxFlex.lt-md="100" fxFlex.lt-lg="50" fxFlex.lt-xl="33" fxFlex.gt-lg="20" *ngFor="let book of books; index as i" class="book">
+<div
+  fxLayoutAlign.lt-sm="space-around center"
+  fxLayoutAlign.lt-md="space-strecht start"
+  fxLayoutAlign.lt-lg="space-strecht start"
+  fxLayoutAlign.lt-xl="space-strecht start"
+  fxLayoutAlign.gt-lg="space-strecht start"
+  fxLayout.lt-sm="column"
+  fxLayout.lt-md="row wrap"
+  fxLayout.lt-lg="row wrap"
+  fxLayout.lt-xl="row wrap"
+  fxLayout.gt-lg="row wrap"
+  class="book-box"
+>
+  <div
+    fxFlex.lt-md="100"
+    fxFlex.lt-lg="50"
+    fxFlex.lt-xl="33"
+    fxFlex.gt-lg="20"
+    *ngFor="let book of books; index as i"
+    class="book"
+  >
     <mat-card class="book-card">
       <div id="card-header" style="display: flex; height: 40%">
         <div id="card-img" style="width: 50%">
-          <img class="book-card-img" [src]="
+          <img
+            class="book-card-img"
+            [src]="
               book.imagePath !== null
                 ? book.imagePath
                 : 'assets/img/no-image-icon.png'
-            " />
+            "
+          />
         </div>
         <div id="content" style="width: 50%">
           <h4 class="book-title">{{ book.title }}</h4>
@@ -36,24 +57,43 @@
         }}</mat-card-subtitle> -->
         <div id="card-actions" style="width: 100%">
           <mat-card-actions *ngIf="isAuthenticated">
-            <button mat-button (click)="deleteBook(i)" *ngIf="canEditBook" title="Excluir">
+            <button
+              mat-button
+              (click)="deleteBook(i)"
+              *ngIf="canEditBook"
+              title="Excluir"
+            >
               <mat-icon>delete</mat-icon>
             </button>
 
-            <button mat-button (click)="setBookAsRead(i)" *ngIf="canEditBook && book.readStatus === 'lerei'" title="Lido">
+            <button
+              mat-button
+              (click)="setBookAsRead(i)"
+              *ngIf="canEditBook && book.readStatus === 'lerei'"
+              title="Lido"
+            >
               <mat-icon>book</mat-icon>
             </button>
           </mat-card-actions>
         </div>
 
-        <div id="card-date-nickname" style="display: flex; width: 100%" *ngIf="!canEditBook">
-          <div id="date" style="width: 65%">
+        <div
+          id="card-date-nickname"
+          style="display: flex; width: 100%"
+          *ngIf="!canEditBook"
+        >
+          <div id="date" style="width: 50%">
             <mat-card-subtitle>{{
               book.insertDate | date: "dd/MM/yyyy HH:mm"
             }}</mat-card-subtitle>
           </div>
-          <div id="nickname" style="width: 35%; text-align: right">
-            <mat-card-subtitle style="cursor: pointer" [routerLink]="['/user/profile']" [queryParams]="{ userId: book.userId }">{{ book.nickname }}</mat-card-subtitle>
+          <div id="nickname" style="width: 50%; text-align: right">
+            <mat-card-subtitle
+              style="cursor: pointer"
+              [routerLink]="['/user/profile']"
+              [queryParams]="{ userId: book.userId }"
+              >{{ book.nickname }}</mat-card-subtitle
+            >
           </div>
         </div>
       </div>

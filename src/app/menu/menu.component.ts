@@ -10,19 +10,12 @@ import { MediaMatcher } from '@angular/cdk/layout';
 })
 export class MenuComponent implements OnInit {
 
-  mobileQuery: MediaQueryList;
-  private _mobileQueryListener: () => void;
   isAuthenticated = false;
   private userSub: Subscription;
 
   constructor(
     private authService: AuthService,
-    // private changeDetectorRef: ChangeDetectorRef,
-    // private media: MediaMatcher
   ) {
-    // this.mobileQuery = media.matchMedia('(max-width: 600px)');
-    // this._mobileQueryListener = () => changeDetectorRef.detectChanges();
-    // this.mobileQuery.addListener(this._mobileQueryListener);
   }
 
   ngOnInit() {
@@ -30,10 +23,5 @@ export class MenuComponent implements OnInit {
       this.isAuthenticated = !!user;
     });
   }
-
-  // ngOnDestroy(): void {
-  //   this.mobileQuery.removeListener(this._mobileQueryListener);
-  //   this.userSub.unsubscribe();
-  // }
 
 }

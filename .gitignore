@@ -50,3 +50,8 @@ Thumbs.db
 !*.secret
 src/environments/environment.prod.ts
 src/environments/environment.ts
+
+#firebase
+.firebase/*
+.firebaserc
+firebase.json
