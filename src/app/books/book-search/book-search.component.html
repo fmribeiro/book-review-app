@@ -26,7 +26,7 @@
     style="margin-left: 5px; margin-top: 5px"
     *ngIf="startTheSearch && !books"
   >
-    <h3>
+    <h3 class="mat-h3 mat-subheading-2">
       A pesquisa para o livro
       <span style="font-size: x-large">"{{ bookTitle }}"</span>
       não retornou nenhum resultado
@@ -34,7 +34,7 @@
   </div>
 
   <div style="margin-left: 5px; margin-top: 5px" *ngIf="startTheSearch">
-    <h3>
+    <h3 class="mat-h3 mat-subheading-2">
       Resultado da busca para o termo<span style="font-size: x-large"
         >"{{ bookTitle }}"</span
       >
@@ -78,9 +78,9 @@
         </div>
         <div id="content" style="width: 50%">
           <h4 class="book-title">{{ book.title }}</h4>
-          <h5>{{ book.authors }}</h5>
-          <h5>{{ book.publisher }}</h5>
-          <h5>
+          <h5 class="mat-small mat-caption">{{ book.authors }}</h5>
+          <h5 class="mat-small mat-caption">{{ book.publisher }}</h5>
+          <h5 class="mat-small mat-caption">
             {{ book.pageCount }}
             {{ (book.pageCount && "páginas") || book.pageCount }}
           </h5>
@@ -89,7 +89,7 @@
 
       <div id="card-info" style="display: flex; height: 45%; margin-top: 1rem">
         <mat-card-content>
-          <p class="book-info">{{ book.description }}</p>
+          <p class="book-info mat-body mat-body-1">{{ book.description }}</p>
         </mat-card-content>
 
         <mat-card-subtitle class="book-title">{{

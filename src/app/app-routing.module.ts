@@ -1,153 +1,140 @@
-import { NgModule } from "@angular/core";
-import { ReviewEditComponent } from "src/app/reviews/review-edit/review-edit.component";
-import { RouterModule, Routes } from "@angular/router";
+import { NgModule } from '@angular/core';
+import { ReviewEditComponent } from 'src/app/reviews/review-edit/review-edit.component';
+import { RouterModule, Routes } from '@angular/router';
 
-import { AuthComponent } from "./auth/auth.component";
-import { AuthGuard } from "./auth/auth.guard";
-import { BookSearchComponent } from "./books/book-search/book-search.component";
-import { BooksComponent } from "./books/books.component";
-import { MessagesComponent } from "./profile/messages/messages.component";
-import { UserProfileComponent } from "./profile/users/user-profile/user-profile.component";
-import { UsersComponent } from "./profile/users/users.component";
+import { AuthComponent } from './auth/auth.component';
+import { AuthGuard } from './auth/auth.guard';
+import { BookSearchComponent } from './books/book-search/book-search.component';
+import { BooksComponent } from './books/books.component';
+import { MessagesComponent } from './profile/messages/messages.component';
+import { UserProfileComponent } from './profile/users/user-profile/user-profile.component';
+import { UsersComponent } from './profile/users/users.component';
 
-import { ReviewsComponent } from "./reviews/reviews.component";
-import { ReviewDetailsComponent } from "./reviews/review-details/review-details.component";
+import { ReviewsComponent } from './reviews/reviews.component';
+import { ReviewDetailsComponent } from './reviews/review-details/review-details.component';
 
 const routes: Routes = [
-  { path: "", redirectTo: "/reviews/recent", pathMatch: "full" },
+  { path: '', redirectTo: '/reviews/recent', pathMatch: 'full' },
   {
-    path: "users",
+    path: 'users',
     component: UsersComponent,
-    data: { breadcrumb: "Leitores" }
+    data: { breadcrumb: 'Leitores' }
   },
   {
-    path: "reviews",
-    data: { breadcrumb: "" },
+    path: 'reviews',
+    data: { breadcrumb: '' },
     children: [
       {
-        path: "recent",
+        path: 'recent',
         component: ReviewsComponent,
-        data: { breadcrumb: "Resenhas recentes" }
+        data: { breadcrumb: 'Resenhas recentes' }
       },
       {
-        path: "liked",
+        path: 'liked',
         component: ReviewsComponent,
-        data: { breadcrumb: "Resenhas mais curtidas" }
+        data: { breadcrumb: 'Resenhas mais curtidas' }
       },
       {
-        path: "search",
+        path: 'search',
         component: ReviewsComponent
       },
       {
-        path: "details",
+        path: 'details',
         component: ReviewDetailsComponent,
-        data: { breadcrumb: "Visualizar resenha" }
+        data: { breadcrumb: 'Visualizar resenha' }
       }
-      //COLOCAR EDIT E CREATE NA ROTA USER/REVIEW
-      // {
-      //   path: "edit",
-      //   component: ReviewEditComponent,
-      //   data: { breadcrumb: "Editar resenha" },
-      //   canActivate: [AuthGuard]
-      // },
-      // {
-      //   path: "create",
-      //   component: ReviewEditComponent,
-      //   data: { breadcrumb: "Criar resenha" },
-      //   canActivate: [AuthGuard]
-      // }
     ]
   },
   {
-    path: "books",
+    path: 'books',
     children: [
       {
-        path: "recent",
+        path: 'recent',
         component: BooksComponent,
-        data: { breadcrumb: "Livros recém lidos" }
+        data: { breadcrumb: 'Livros recém lidos' }
       }
     ]
   },
   {
-    path: "user/reviews",
+    path: 'user/reviews',
     canActivate: [AuthGuard],
     children: [
       {
-        path: "favorites",
+        path: 'favorites',
         component: ReviewsComponent,
-        data: { breadcrumb: "Minhas resenhas favoritas" }
+        data: { breadcrumb: 'Minhas resenhas favoritas' }
       },
       {
-        path: "mine",
+        path: 'mine',
         component: ReviewsComponent,
-        data: { breadcrumb: "Minhas resenhas" }
+        data: { breadcrumb: 'Minhas resenhas' }
       },
       {
-        path: "following",
+        path: 'following',
         component: ReviewsComponent,
-        data: { breadcrumb: "Resenhas de quem eu sigo" }
+        data: { breadcrumb: 'Resenhas de quem eu sigo' }
       },
       {
-        path: "edit",
+        path: 'edit',
         component: ReviewEditComponent,
-        data: { breadcrumb: "Editar resenha" },
+        data: { breadcrumb: 'Editar resenha' },
         canActivate: [AuthGuard]
       },
       {
-        path: "create",
+        path: 'create',
         component: ReviewEditComponent,
-        data: { breadcrumb: "Criar resenha" },
+        data: { breadcrumb: 'Criar resenha' },
         canActivate: [AuthGuard]
       }
     ]
   },
   {
-    path: "user",
+    path: 'user',
     canActivate: [AuthGuard],
     children: [
       {
-        path: "following",
+        path: 'following',
         component: UsersComponent,
-        data: { breadcrumb: "Leitores que eu sigo" }
+        data: { breadcrumb: 'Leitores que eu sigo' }
       },
       {
-        path: "messages",
+        path: 'messages',
         component: MessagesComponent,
-        data: { breadcrumb: "Mensagens" }
+        data: { breadcrumb: 'Mensagens' }
       },
       {
-        path: "profile",
+        path: 'profile',
         component: UserProfileComponent,
-        data: { breadcrumb: "Perfil leitor" }
+        data: { breadcrumb: 'Perfil leitor' }
       }
     ]
   },
   {
-    path: "user/books",
+    path: 'user/books',
     canActivate: [AuthGuard],
     children: [
       {
-        path: "read",
+        path: 'read',
         component: BooksComponent,
-        data: { breadcrumb: "Livros que li" }
+        data: { breadcrumb: 'Livros que li' }
       },
       {
-        path: "wishlist",
+        path: 'wishlist',
         component: BooksComponent,
-        data: { breadcrumb: "Livros que desejo ler" }
+        data: { breadcrumb: 'Livros que desejo ler' }
       },
       {
-        path: "create",
+        path: 'create',
         component: BookSearchComponent,
-        data: { breadcrumb: "Adicionar livro" },
+        data: { breadcrumb: 'Adicionar livro' },
         canActivate: [AuthGuard]
       }
     ]
   },
   {
-    path: "auth",
+    path: 'auth',
     component: AuthComponent,
-    data: { breadcrumb: "Autenticação" }
+    data: { breadcrumb: 'Autenticação' }
   }
 ];
 
@@ -155,4 +142,4 @@ const routes: Routes = [
   imports: [RouterModule.forRoot(routes)],
   exports: [RouterModule]
 })
-export class AppRoutingModule {}
+export class AppRoutingModule { }

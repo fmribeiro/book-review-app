@@ -30,7 +30,11 @@
     </mat-form-field>
   </form>
 
-  <h1 style="font-weight: 300; margin-left: 15px" *ngIf="isAuthenticated">
+  <h1
+    class="mat-body mat-body-1"
+    style="font-weight: 300; margin-left: 15px"
+    *ngIf="isAuthenticated"
+  >
     Olá, {{ getUserFirstName() }}
   </h1>
   <button
@@ -59,7 +63,9 @@
 </mat-toolbar>
 
 <mat-toolbar style="height: 3rem" color="primary">
-  <h1 style="font-weight: 300">{{ currentPage }}</h1>
+  <h1 style="font-weight: 300" class="mat-body mat-body-1">
+    {{ currentPage }}
+  </h1>
 
   <span class="spacer"></span>
 
@@ -77,6 +83,7 @@
           <mat-icon>reviews</mat-icon>
           <span>Resenha</span>
         </button>
+
         <button
           mat-menu-item
           title="Adicionar livro"

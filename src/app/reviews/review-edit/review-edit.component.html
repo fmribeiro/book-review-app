@@ -1,7 +1,7 @@
 <ng-template appPlaceHolder></ng-template>
 
 <div fxLayoutAlign="space-around center" fxLayout="column" fxFlex="100">
-  <h3 *ngIf="!allBooksRead">
+  <h3 class="mat-h3 mat-subheading-2" *ngIf="!allBooksRead">
     Nenhum livro foi adicionado, para criar uma resenha é preciso adicionar um
     livro.
   </h3>
@@ -11,7 +11,11 @@
       <p>
         <mat-form-field appearance="fill" class="form-field">
           <mat-label>Livro lido</mat-label>
-          <mat-select name="bookTitle" [(ngModel)]="editedReview.bookTitle" required>
+          <mat-select
+            name="bookTitle"
+            [(ngModel)]="editedReview.bookTitle"
+            required
+          >
             <mat-option *ngFor="let book of allBooksRead" [value]="book">
               {{ book }}
             </mat-option>
@@ -22,17 +26,39 @@
       <p>
         <mat-form-field appearance="fill" class="form-field">
           <mat-label>Resenha do livro. Min: 150 caracteres</mat-label>
-          <textarea matInput name="review" [(ngModel)]="editedReview.review" ng-min rows="30" minlength="150" required></textarea>
+          <textarea
+            matInput
+            name="review"
+            [(ngModel)]="editedReview.review"
+            ng-min
+            rows="30"
+            minlength="150"
+            required
+          ></textarea>
         </mat-form-field>
       </p>
 
       <div>
         <p>
-          <button mat-raised-button type="button" [disabled]="!reviewForm.valid" *ngIf="!startEditing" (click)="createReview(reviewForm)" title="Salvar">
+          <button
+            mat-raised-button
+            type="button"
+            [disabled]="!reviewForm.valid"
+            *ngIf="!startEditing"
+            (click)="createReview(reviewForm)"
+            title="Salvar"
+          >
             Salvar
           </button>
 
-          <button mat-raised-button type="button" [disabled]="!reviewForm.valid" *ngIf="startEditing" (click)="updateReview(reviewForm)" title="Atualizar">
+          <button
+            mat-raised-button
+            type="button"
+            [disabled]="!reviewForm.valid"
+            *ngIf="startEditing"
+            (click)="updateReview(reviewForm)"
+            title="Atualizar"
+          >
             Atualizar
           </button>
         </p>

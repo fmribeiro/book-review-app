@@ -94,8 +94,7 @@ export class AuthService {
     } = JSON.parse(localStorage.getItem('userData'));
 
     if (!userData) {
-      // return;
-      this.router.navigate(['/auth']);
+      return;
     } else {
       const loadedUser = new User(
         userData.email,

@@ -10,7 +10,7 @@ import { UtilsService } from "./utils.service";
 export class BookService {
   private books: Book[] = [];
 
-  constructor(private http: HttpClient, private utilsService: UtilsService) {}
+  constructor(private http: HttpClient, private utilsService: UtilsService) { }
 
   mountBook(book: any): Book {
     return {
@@ -23,7 +23,8 @@ export class BookService {
       nickname: book.user ? book.user.nickname : null,
       userId: book.userId,
       readStatus: book.readStatus,
-      insertDate: this.utilsService.convertObjetIdToDate(book.id)
+      insertDate: this.utilsService.convertObjetIdToDate(book.id),
+      publisher: book.publisher
     };
   }
 

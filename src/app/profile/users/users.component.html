@@ -25,25 +25,25 @@
     *ngFor="let user of users; index as i"
   >
     <mat-card class="user-card">
-      <div id="card-header" style="height: 20%">
+      <div class="card-header">
         <mat-card-title class="one-word-per-line"
           ><a [routerLink]="['/user/profile']" [queryParams]="{ user: i }">{{
             user.name
           }}</a>
         </mat-card-title>
-        <mat-card-subtitle>{{ user.nickname }}</mat-card-subtitle>
+        <mat-card-subtitle> {{ user.nickname }}</mat-card-subtitle>
       </div>
 
-      <div id="card-info" style="display: block; height: 65%; margin-top: 1rem">
+      <div class="card-info">
         <img class="user-card-img" [src]="'assets/img/user.png'" />
-        <mat-card-content style="margin-top: 5px">
+        <mat-card-content class="user-info">
           <p>Livros lidos: {{ user.booksRead }}</p>
           <p>Resenhas feitas: {{ user.reviewsDone }}</p>
           <p>Seguindo: {{ user.users }}</p>
         </mat-card-content>
       </div>
 
-      <div id="card-bottom" style="display: flex; height: 15%">
+      <div class="card-bottom">
         <mat-card-actions *ngIf="isAuthenticated">
           <button
             *ngIf="canFollow && !user.isFollowingUser"

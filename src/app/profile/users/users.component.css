@@ -19,6 +19,31 @@
   border-radius: 10%;
 }
 
+.user-info {
+  margin-top: 5px;
+  width: max-content;
+  margin: 0 auto;
+  text-align: justify;
+}
+
+.card-bottom {
+  display: flex;
+  height: 15%;
+}
+
+.card-header {
+  height: 20%;
+  width: min-content;
+  margin: 0 auto;
+  text-align: justify;
+}
+
+.card-info {
+  display: block;
+  height: 65%;
+  margin-top: 1rem;
+}
+
 .one-word-per-line {
   text-transform: capitalize;
   word-spacing: 20rem;

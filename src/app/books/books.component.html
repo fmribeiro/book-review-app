@@ -1,5 +1,5 @@
 <div style="margin-left: 10px; margin-top: 10px" *ngIf="!books">
-  <h3>Nenhum livro foi adicionado</h3>
+  <h3 class="mat-h3 mat-subheading-2">Nenhum livro foi adicionado</h3>
 </div>
 <div
   fxLayoutAlign.lt-sm="space-around center"
@@ -35,10 +35,10 @@
           />
         </div>
         <div id="content" style="width: 50%">
-          <h4 class="book-title">{{ book.title }}</h4>
-          <h5>{{ book.authors }}</h5>
-          <h5>{{ book.publisher }}</h5>
-          <h5>
+          <h4 class="book-title mat-h4 mat-subheading-1">{{ book.title }}</h4>
+          <h5 class="mat-small mat-caption">{{ book.authors }}</h5>
+          <h5 class="mat-small mat-caption">{{ book.publisher }}</h5>
+          <h5 class="mat-small mat-caption">
             {{ book.pageCount }}
             {{ (book.pageCount && "páginas") || book.pageCount }}
           </h5>
@@ -47,14 +47,11 @@
 
       <div id="card-info" style="display: block; height: 45%; margin-top: 1rem">
         <mat-card-content>
-          <p class="book-info">{{ book.description }}</p>
+          <p class="book-info mat-body mat-body-1">{{ book.description }}</p>
         </mat-card-content>
       </div>
 
       <div id="card-bottom" style="display: block; height: 15%">
-        <!-- <mat-card-subtitle class="book-title" *ngIf="!canEditBook">{{
-          book.userNickname
-        }}</mat-card-subtitle> -->
         <div id="card-actions" style="width: 100%">
           <mat-card-actions *ngIf="isAuthenticated">
             <button
@@ -83,16 +80,18 @@
           *ngIf="!canEditBook"
         >
           <div id="date" style="width: 50%">
-            <mat-card-subtitle>{{
+            <span class="mat-small mat-caption">{{
               book.insertDate | date: "dd/MM/yyyy HH:mm"
-            }}</mat-card-subtitle>
+            }}</span>
           </div>
+
           <div id="nickname" style="width: 50%; text-align: right">
-            <mat-card-subtitle
+            <span
+              class="mat-small mat-caption"
               style="cursor: pointer"
               [routerLink]="['/user/profile']"
               [queryParams]="{ userId: book.userId }"
-              >{{ book.nickname }}</mat-card-subtitle
+              >{{ book.nickname }}</span
             >
           </div>
         </div>
