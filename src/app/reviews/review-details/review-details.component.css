@@ -12,5 +12,6 @@ h2 {
 
 p {
   text-indent: 2rem;
+  text-align: justify;
   white-space: pre-wrap;
 }

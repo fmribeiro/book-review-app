@@ -44,9 +44,23 @@
   margin-top: 1rem;
 }
 
-.one-word-per-line {
+/* .one-word-per-line {
   text-transform: capitalize;
+  text-overflow: clip;
   word-spacing: 20rem;
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+} */
+
+.one-word-per-line {
+  overflow: hidden;
+  --lh: 1.6rem;
+  line-height: var(--lh);
+  --max-lines: 2;
+  text-transform: capitalize;
+  max-height: calc(var(--lh) * var(--max-lines));
 }
 
 a {
