@@ -1,27 +1,25 @@
-import { Component, EventEmitter, Input, OnInit, Output } from "@angular/core";
-import { ActivatedRoute, Router } from "@angular/router";
+import { Component, Input, OnInit } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
 
-import { Location } from "@angular/common";
-import { Review } from "../shared/models/review.model";
-import { ReviewService } from "../shared/services/review.service";
-import { UserService } from "../shared/services/users.service";
-import { UtilsService } from "../shared/services/utils.service";
-import { MatDialog, MAT_DIALOG_DATA } from "@angular/material/dialog";
-import { ReviewDetailsComponent } from "./review-details/review-details.component";
+import { Review } from '../shared/models/review.model';
+import { ReviewService } from '../shared/services/review.service';
+import { UserService } from '../shared/services/users.service';
+import { UtilsService } from '../shared/services/utils.service';
 
 @Component({
-  selector: "app-reviews",
-  templateUrl: "./reviews.component.html",
-  styleUrls: ["./reviews.component.css"]
+  selector: 'app-reviews',
+  templateUrl: './reviews.component.html',
+  styleUrls: ['./reviews.component.css']
 })
 export class ReviewsComponent implements OnInit {
+
   review: Review;
   @Input() reviews: Review[] = [];
   isAuthenticated = false;
   isReviewFound = false;
   canEditReview = false;
   user = null;
-  bookTitleSearch = "";
+  bookTitleSearch = '';
   isLoading = false;
   startReviewSearch = false;
 
@@ -32,9 +30,7 @@ export class ReviewsComponent implements OnInit {
     private activatedRoute: ActivatedRoute,
     private router: Router,
     private utilsService: UtilsService,
-    private userService: UserService,
-    private location: Location,
-    private dialog: MatDialog
+    private userService: UserService
   ) {
     this.activatedRoute.url.subscribe(params => {
       this.solveRoutes(params[0].path);
@@ -54,33 +50,25 @@ export class ReviewsComponent implements OnInit {
     this.isAuthenticated = this.utilsService.isUserAuthenticated();
   }
 
-  openDialog() {
-    const dialogRef = this.dialog.open(ReviewDetailsComponent, {
-      data: {
-        review: this.review
-      }
-    });
-  }
-
   solveRoutes(route: string): void {
     switch (route) {
-      case "recent": {
+      case 'recent': {
         this.getRecentReviews();
         break;
       }
-      case "liked": {
+      case 'liked': {
         this.getFavoritesReviews();
         break;
       }
-      case "favorites": {
+      case 'favorites': {
         this.getUserFavoritesReviews();
         break;
       }
-      case "mine": {
+      case 'mine': {
         this.getUserReviews();
         break;
       }
-      case "following": {
+      case 'following': {
         this.getFollowUsersReviews();
         break;
       }
@@ -168,7 +156,7 @@ export class ReviewsComponent implements OnInit {
   }
 
   editReview(index: number): void {
-    this.router.navigate(["/user/reviews/edit/"], { queryParams: { id: index } });
+    this.router.navigate(['/user/reviews/edit/'], { queryParams: { id: index } });
   }
 
   deleteReview(index: number): void {
@@ -179,7 +167,7 @@ export class ReviewsComponent implements OnInit {
 
   seeReview(index: number): void {
     this.review = this.reviews[index];
-    this.openDialog();
+    this.router.navigate(['/reviews/details'], { state: { review: this.review } });
     this.user = null;
   }
 
