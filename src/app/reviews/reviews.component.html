@@ -1,6 +1,11 @@
 <div *ngIf="isLoading" style="text-align: center">
   <app-loading-spinner></app-loading-spinner>
 </div>
+
+<div style="margin-left: 10px; margin-top: 10px" *ngIf="reviews.length < 1">
+  <h3 class="mat-h3 mat-subheading-2">Nenhuma resenha foi adicionada</h3>
+</div>
+
 <ng-template [ngIf]="startReviewSearch">
   <div style="margin-left: 10px; margin-top: 10px" *ngIf="!isReviewFound">
     <h3 class="mat-h3 mat-subheading-2">

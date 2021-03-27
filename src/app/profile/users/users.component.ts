@@ -12,7 +12,7 @@ import { CdkVirtualScrollViewport } from '@angular/cdk/scrolling';
 })
 export class UsersComponent implements OnInit, AfterViewInit {
 
-  @Input() users: User[];
+  @Input() users: User[] = [];
   @ViewChild(CdkVirtualScrollViewport, { static: false })
   public virtualScroll?: CdkVirtualScrollViewport;
   isAuthenticated = false;
@@ -29,6 +29,7 @@ export class UsersComponent implements OnInit, AfterViewInit {
     private utilsService: UtilsService) {
 
     this.activatedRoute.url.subscribe(params => {
+      this.currentPath = params[0].path;
       this.solveRoutes(params[0].path);
     });
   }
@@ -45,7 +46,7 @@ export class UsersComponent implements OnInit, AfterViewInit {
   onScroll(): void {
     const scrollOffset = Math.round(this.virtualScroll.measureScrollOffset('bottom'));
     const isLastPage = this.currentPage >= this.totalPages - 1;
-
+    // console.log('scrollOffset: ' + scrollOffset);
     if (this.isPageable && scrollOffset < 5 && !isLastPage) {
       console.log('nova busca...');
       console.log('totalItems: ' + this.users.length);
@@ -67,14 +68,15 @@ export class UsersComponent implements OnInit, AfterViewInit {
     }
   }
 
-
   getUsers(size: number = 10): void {
     this.canFollow = true;
+    this.isPageable = true;
     const loggedUser = this.userService.getCurrentUser();
 
     this.userService.fetchUsers(this.currentPage, size).subscribe(
       response => {
-        this.users = response.items;
+        this.users = this.users.concat(response.items);
+        this.totalPages = response.totalPages;
         this.users.forEach((user, position) => {
           if (loggedUser) {
             if (user.id === loggedUser.id) {
