@@ -4,6 +4,7 @@ import { Observable } from "rxjs";
 import { catchError, map, tap } from "rxjs/operators";
 
 import { Book } from "../models/book.model";
+import { PageableSearch } from "../models/pageableSearch.model";
 import { UtilsService } from "./utils.service";
 
 @Injectable({ providedIn: "root" })
@@ -28,17 +29,29 @@ export class BookService {
     };
   }
 
-  fetchBooks(): Observable<Book[]> {
-    const url = this.utilsService.getApiURL() + "/books";
+  mountPageableBook(response: any): PageableSearch<Book> {
+    const pageableSearch: PageableSearch<Book> = new PageableSearch<Book>();
+    const books = response.books.map(book => {
+      return this.mountBook(book);
+    });
+
+    pageableSearch.currentPage = response.currentPage;
+    pageableSearch.totalItems = response.totalItems;
+    pageableSearch.totalReturned = response.totalReturned;
+    pageableSearch.totalPages = response.totalPages;
+    pageableSearch.items = books;
+    return pageableSearch;
+  }
+
+  fetchRecentBooks(page: number, size: number): Observable<PageableSearch<Book>> {
+    const url = this.utilsService.getApiURL() + `/books/page/${page}/size/${size}`;
     return this.http.get<Book[]>(url).pipe(
       catchError(this.utilsService.handleError),
-      map(books => {
-        return books.map(book => {
-          return this.mountBook(book);
-        });
+      map(response => {
+        return this.mountPageableBook(response);
       }),
-      tap(books => {
-        this.books = books;
+      tap(response => {
+        this.books = response.items;
       })
     );
   }

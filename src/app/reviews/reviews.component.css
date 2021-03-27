@@ -35,6 +35,14 @@
 }
 
 p {
-  /* text-indent: 2rem; */
-  /* white-space: pre-wrap; */
+  white-space: pre-wrap;
+}
+
+.example-viewport {
+  min-height: 100%;
+}
+
+.review-card-img {
+  max-width: 100%;
+  height: 10rem;
 }

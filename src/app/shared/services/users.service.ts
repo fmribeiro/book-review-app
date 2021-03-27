@@ -4,6 +4,7 @@ import { User } from '../models/user.model';
 import { UtilsService } from './utils.service';
 import { Observable } from 'rxjs';
 import { map, catchError, tap } from 'rxjs/operators';
+import { PageableSearch } from '../models/pageableSearch.model';
 
 @Injectable({ providedIn: 'root' })
 export class UserService {
@@ -40,21 +41,34 @@ export class UserService {
     };
   }
 
-  fetchUsers(): Observable<User[]> {
-    const url = this.utilsService.getApiURL() + "/users";
+  mountPageableUser(response: any): PageableSearch<User> {
+    const pageableSearch: PageableSearch<User> = new PageableSearch<User>();
+    const users = response.users.map(user => {
+      return this.mountUserFullProfile(user);
+    });
+
+    pageableSearch.currentPage = response.currentPage;
+    pageableSearch.totalItems = response.totalItems;
+    pageableSearch.totalReturned = response.totalReturned;
+    pageableSearch.totalPages = response.totalPages;
+    pageableSearch.items = users;
+    return pageableSearch;
+  }
+
+
+  fetchUsers(page: number, size: number): Observable<PageableSearch<User>> {
+    const url = this.utilsService.getApiURL() + `/users/page/${page}/size/${size}`;
     return this.http
       .get<any[]>(
         url
       )
       .pipe(
         catchError(this.utilsService.handleError),
-        map(users => {
-          return users.map(user => {
-            return this.mountUserFullProfile(user);
-          });
+        map(response => {
+          return this.mountPageableUser(response);
         }),
-        tap(users => {
-          this.users = users;
+        tap(response => {
+          this.users = response.items;
         })
       );
   }
@@ -128,7 +142,7 @@ export class UserService {
       .pipe(
         catchError(this.utilsService.handleError),
         map(user => {
-            return this.mountUser(user);
+          return this.mountUser(user);
         }),
         tap(user => {
           this.currentUser = user;
@@ -145,7 +159,7 @@ export class UserService {
       .pipe(
         catchError(this.utilsService.handleError),
         map(user => {
-            return this.mountUser(user);
+          return this.mountUser(user);
         }),
         tap(user => {
           this.saveUserInfoLocally(user);
@@ -163,7 +177,7 @@ export class UserService {
     return this.users;
   }
 
-  getCurrentUser(): User{
+  getCurrentUser(): User {
     return this.currentUser;
   }
 

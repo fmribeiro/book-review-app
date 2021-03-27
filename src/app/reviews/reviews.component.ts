@@ -1,4 +1,5 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { CdkVirtualScrollViewport } from '@angular/cdk/scrolling';
+import { AfterViewInit, Component, Input, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 
 import { Review } from '../shared/models/review.model';
@@ -9,9 +10,9 @@ import { UtilsService } from '../shared/services/utils.service';
 @Component({
   selector: 'app-reviews',
   templateUrl: './reviews.component.html',
-  styleUrls: ['./reviews.component.css']
+  styleUrls: ['./reviews.component.css'],
 })
-export class ReviewsComponent implements OnInit {
+export class ReviewsComponent implements OnInit, AfterViewInit {
 
   review: Review;
   @Input() reviews: Review[] = [];
@@ -22,6 +23,13 @@ export class ReviewsComponent implements OnInit {
   bookTitleSearch = '';
   isLoading = false;
   startReviewSearch = false;
+  currentPath = '';
+  isLastPage = false;
+  currentPage = 0;
+  totalPages = 0;
+  isPageable = false;
+  @ViewChild(CdkVirtualScrollViewport, { static: false })
+  public virtualScroll?: CdkVirtualScrollViewport;
 
   delay = async (ms: number) => new Promise(res => setTimeout(res, ms));
 
@@ -32,7 +40,9 @@ export class ReviewsComponent implements OnInit {
     private utilsService: UtilsService,
     private userService: UserService
   ) {
+
     this.activatedRoute.url.subscribe(params => {
+      this.currentPath = params[0].path;
       this.solveRoutes(params[0].path);
     });
 
@@ -44,6 +54,20 @@ export class ReviewsComponent implements OnInit {
         this.user = params.user;
       }
     });
+  }
+
+  ngAfterViewInit(): void {
+    this.virtualScroll.elementRef.nativeElement.onscroll = (e) => { this.onScroll(); };
+  }
+
+  onScroll(): void {
+    const scrollOffset = Math.round(this.virtualScroll.measureScrollOffset('bottom'));
+    const isLastPage = this.currentPage >= this.totalPages - 1;
+
+    if (this.isPageable && scrollOffset < 5 && !isLastPage) {
+      this.currentPage = this.currentPage + 1;
+      this.solveRoutes(this.currentPath);
+    }
   }
 
   ngOnInit(): void {
@@ -75,23 +99,35 @@ export class ReviewsComponent implements OnInit {
     }
   }
 
-  getRecentReviews(): void {
-    this.reviewService.fetchRecentReviews().subscribe(
+  getRecentReviews(size: number = 10): void {
+    this.isLoading = true;
+    this.isPageable = true;
+    this.reviewService.fetchRecentReviews(this.currentPage, size).subscribe(
       response => {
-        this.reviews = response;
+        this.isLoading = false;
+        this.reviews = this.reviews.concat(response.items);
+        this.totalPages = response.totalPages;
       },
       error => {
+        this.isLoading = false;
+        this.isLastPage = true;
         this.reviews = [];
       }
     );
   }
 
-  getFavoritesReviews(): void {
-    this.reviewService.fetchFavoritesReviews().subscribe(
+  getFavoritesReviews(size: number = 10): void {
+    this.isLoading = true;
+    this.isPageable = true;
+    this.reviewService.fetchFavoritesReviews(this.currentPage, size).subscribe(
       response => {
-        this.reviews = response;
+        this.isLoading = false;
+        this.reviews = this.reviews.concat(response.items);
+        this.totalPages = response.totalPages;
       },
       error => {
+        this.isLoading = false;
+        this.isLastPage = true;
         this.reviews = [];
       }
     );

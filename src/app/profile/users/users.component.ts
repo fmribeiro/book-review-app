@@ -1,110 +1,136 @@
 import { UtilsService } from './../../shared/services/utils.service';
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, ViewChild, AfterViewInit } from '@angular/core';
 import { UserService } from '../../shared/services/users.service';
 import { User } from '../../shared/models/user.model';
 import { ActivatedRoute } from '@angular/router';
+import { CdkVirtualScrollViewport } from '@angular/cdk/scrolling';
 
 @Component({
   selector: 'app-users',
   templateUrl: './users.component.html',
   styleUrls: ['./users.component.css']
 })
-export class UsersComponent implements OnInit {
+export class UsersComponent implements OnInit, AfterViewInit {
 
   @Input() users: User[];
+  @ViewChild(CdkVirtualScrollViewport, { static: false })
+  public virtualScroll?: CdkVirtualScrollViewport;
   isAuthenticated = false;
   canFollow = false;
+  totalPages = 0;
+  currentPage = 0;
+  canEditBook = false;
+  currentPath = '';
+  isPageable = false;
 
   constructor(
     private userService: UserService,
     private activatedRoute: ActivatedRoute,
     private utilsService: UtilsService) {
 
-      this.activatedRoute.url.subscribe(params => {
-        this.solveRoutes(params[0].path);
-      });
-    }
+    this.activatedRoute.url.subscribe(params => {
+      this.solveRoutes(params[0].path);
+    });
+  }
 
-    ngOnInit(): void {
-      this.isAuthenticated = this.utilsService.isUserAuthenticated();
-    }
+  ngOnInit(): void {
+    this.isAuthenticated = this.utilsService.isUserAuthenticated();
+  }
 
-    solveRoutes(route: string): void {
-      switch (route) {
-        case 'users': {
-          this.getUsers();
-          break;
-        }
-        case 'following': {
-          this.getFollowingUsers();
-          break;
-        }
+
+  ngAfterViewInit(): void {
+    this.virtualScroll.elementRef.nativeElement.onscroll = (e) => { this.onScroll(); };
+  }
+
+  onScroll(): void {
+    const scrollOffset = Math.round(this.virtualScroll.measureScrollOffset('bottom'));
+    const isLastPage = this.currentPage >= this.totalPages - 1;
+
+    if (this.isPageable && scrollOffset < 5 && !isLastPage) {
+      console.log('nova busca...');
+      console.log('totalItems: ' + this.users.length);
+      this.currentPage = this.currentPage + 1;
+      this.solveRoutes(this.currentPath);
+    }
+  }
+
+  solveRoutes(route: string): void {
+    switch (route) {
+      case 'users': {
+        this.getUsers();
+        break;
+      }
+      case 'following': {
+        this.getFollowingUsers();
+        break;
       }
     }
+  }
 
-    getUsers(): void {
-      this.canFollow = true;
-      const loggedUser = this.userService.getCurrentUser();
 
-      this.userService.fetchUsers().subscribe(
-        response => {
-          this.users = response;
-          this.users.forEach((user, position) => {
-            if(loggedUser){
-              if (user.id === loggedUser.id) {
-                this.users.splice(position, 1);
-              }
+  getUsers(size: number = 10): void {
+    this.canFollow = true;
+    const loggedUser = this.userService.getCurrentUser();
 
-              const following = loggedUser.following.find(id => id === user.id);
-              if(following){
-                user.isFollowingUser = true;
-              }
+    this.userService.fetchUsers(this.currentPage, size).subscribe(
+      response => {
+        this.users = response.items;
+        this.users.forEach((user, position) => {
+          if (loggedUser) {
+            if (user.id === loggedUser.id) {
+              this.users.splice(position, 1);
             }
-          });
-        }
-      );
-    }
 
-    getFollowingUsers(): void {
-      this.canFollow = false;
-      this.userService.mountFollowUsersProfile(this.utilsService.getLoggedUserId())
+            const following = loggedUser.following.find(id => id === user.id);
+            if (following) {
+              user.isFollowingUser = true;
+            }
+          }
+        });
+      }
+    );
+  }
+
+  getFollowingUsers(): void {
+    this.canFollow = false;
+    this.userService.mountFollowUsersProfile(this.utilsService.getLoggedUserId())
       .subscribe(
         response => {
           this.users = response;
         }
       );
-    }
-
-    followUser(index: number): void {
-      const userToFollow = this.users[index];
-      this.userService.getCurrentUserById().subscribe(
-        user => {
-          const loggedUser = user;
-          loggedUser.following.push(userToFollow.id);
-          this.userService.updateUser(loggedUser);
-          this.utilsService.showAlertMessage('Adicionado com sucesso!');
-        }
-      );
-    }
-
-    async unfollowUser(index: number): Promise<void> {
-      const userToUnfollow = this.users[index];
-      let loggedUser;
-      this.userService.getCurrentUserById().subscribe(
-        user => {
-          loggedUser = user;
-        }
-      );
-
-      loggedUser.following.forEach((id, position) => {
-        if (id === userToUnfollow.id) {
-          loggedUser.following.splice(position, 1);
-        }
-      });
-      this.userService.updateUser(loggedUser);
-      this.users.splice(index, 1);
-      this.utilsService.showAlertMessage('Removido com sucesso!');
-    }
-
-
   }
+
+  followUser(index: number): void {
+    const userToFollow = this.users[index];
+    this.userService.getCurrentUserById().subscribe(
+      user => {
+        const loggedUser = user;
+        loggedUser.following.push(userToFollow.id);
+        this.userService.updateUser(loggedUser);
+        this.utilsService.showAlertMessage('Adicionado com sucesso!');
+      }
+    );
+  }
+
+  async unfollowUser(index: number): Promise<void> {
+    const userToUnfollow = this.users[index];
+    let loggedUser;
+    this.userService.getCurrentUserById().subscribe(
+      user => {
+        loggedUser = user;
+      }
+    );
+
+    loggedUser.following.forEach((id, position) => {
+      if (id === userToUnfollow.id) {
+        loggedUser.following.splice(position, 1);
+      }
+    });
+    this.userService.updateUser(loggedUser);
+    this.users.splice(index, 1);
+    this.utilsService.showAlertMessage('Removido com sucesso!');
+  }
+
+
+}

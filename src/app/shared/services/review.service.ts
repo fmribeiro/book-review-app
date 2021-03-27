@@ -7,6 +7,7 @@ import { map, catchError, tap } from 'rxjs/operators';
 import { Review } from '../models/review.model';
 import { PlaceHolderDirective } from '../placeholder/placeholder.directive';
 import { UtilsService } from './utils.service';
+import { PageableSearch } from '../models/pageableSearch.model';
 
 @Injectable({ providedIn: 'root' })
 export class ReviewService {
@@ -49,7 +50,21 @@ export class ReviewService {
     };
   }
 
-  getFollowUsersReviews() {
+  mountPageableReview(response: any): PageableSearch<Review> {
+    const pageableSearch: PageableSearch<Review> = new PageableSearch<Review>();
+    const reviews = response.reviews.map(review => {
+      return this.mountReview(review);
+    });
+
+    pageableSearch.currentPage = response.currentPage;
+    pageableSearch.totalItems = response.totalItems;
+    pageableSearch.totalReturned = response.totalReturned;
+    pageableSearch.totalPages = response.totalPages;
+    pageableSearch.items = reviews;
+    return pageableSearch;
+  }
+
+  getFollowUsersReviews(): void {
     const usersFollow = [];
     this.reviews = [];
     this.userService.mountFollowUsersProfile(this.utilsService.getLoggedUserId())
@@ -65,46 +80,42 @@ export class ReviewService {
       );
   }
 
-  fetchFavoritesReviews(): Observable<Review[]> {
-    const url = this.utilsService.getApiURL() + "/reviews/favorites";
+  fetchFavoritesReviews(page: number, size: number): Observable<PageableSearch<Review>> {
+    const url = this.utilsService.getApiURL() + `/reviews/favorites/page/${page}/size/${size}`;
     return this.http
-      .get<Review[]>(
+      .get<any>(
         url
       )
       .pipe(
         catchError(this.utilsService.handleError),
-        map(reviews => {
-          return reviews.map(review => {
-            return this.mountReview(review);
-          });
+        map(response => {
+          return this.mountPageableReview(response);
         }),
-        tap(reviews => {
-          this.reviews = reviews;
+        tap(response => {
+          this.reviews = response.items;
         })
       );
   }
 
-  fetchRecentReviews(): Observable<Review[]> {
-    const url = this.utilsService.getApiURL() + "/reviews";
+  fetchRecentReviews(page: number, size: number): Observable<PageableSearch<Review>> {
+    const url = this.utilsService.getApiURL() + `/reviews/page/${page}/size/${size}`;
     return this.http
-      .get<Review[]>(
+      .get<any>(
         url
       )
       .pipe(
         catchError(this.utilsService.handleError),
-        map(reviews => {
-          return reviews.map(review => {
-            return this.mountReview(review);
-          });
+        map(response => {
+          return this.mountPageableReview(response);
         }),
-        tap(reviews => {
-          this.reviews = reviews;
+        tap(response => {
+          this.reviews = response.items;
         })
       );
   }
 
   fetchUserFavoritesReviews(): Observable<Review[]> {
-    const url = this.utilsService.getApiURL() + '/liked-reviews/user/' + this.utilsService.getLoggedUserId();
+    const url = this.utilsService.getApiURL() + '/liked-reviews/user' + this.utilsService.getLoggedUserId();
     return this.http
       .get<any[]>(
         url

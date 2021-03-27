@@ -1,11 +1,6 @@
-<!-- <div style="margin-left: 10px; margin-top: 10px" *ngIf="reviews.length < 1">
-  <h3>Nenhum resenha foi adicionada</h3>
-</div> -->
-
 <div *ngIf="isLoading" style="text-align: center">
   <app-loading-spinner></app-loading-spinner>
 </div>
-
 <ng-template [ngIf]="startReviewSearch">
   <div style="margin-left: 10px; margin-top: 10px" *ngIf="!isReviewFound">
     <h3 class="mat-h3 mat-subheading-2">
@@ -23,92 +18,105 @@
   </div>
 </ng-template>
 
-<div
-  fxLayoutAlign.lt-sm="space-around center"
-  fxLayoutAlign.lt-md="space-strecht start"
-  fxLayoutAlign.lt-lg="space-strecht start"
-  fxLayoutAlign.lt-xl="space-strecht start"
-  fxLayoutAlign.gt-lg="space-strecht start"
-  fxLayout.lt-sm="column"
-  fxLayout.lt-md="row wrap"
-  fxLayout.lt-lg="row wrap"
-  fxLayout.lt-xl="row wrap"
-  fxLayout.gt-lg="row wrap"
-  class="review-box"
+<cdk-virtual-scroll-viewport
+  itemSize="100"
+  style="height: 90vh"
+  minBufferPx="2000"
+  maxBufferPx="2000"
 >
   <div
-    fxFlex.lt-md="50"
-    fxFlex.lt-lg="33"
-    fxFlex.lt-xl="20"
-    fxFlex.gt-lg="16"
-    class="review"
-    *ngFor="let review of reviews; index as i"
+    fxLayoutAlign.lt-sm="space-around center"
+    fxLayoutAlign.lt-md="space-strecht start"
+    fxLayoutAlign.lt-lg="space-strecht start"
+    fxLayoutAlign.lt-xl="space-strecht start"
+    fxLayoutAlign.gt-lg="space-strecht start"
+    fxLayout.lt-sm="column"
+    fxLayout.lt-md="row wrap"
+    fxLayout.lt-lg="row wrap"
+    fxLayout.lt-xl="row wrap"
+    fxLayout.gt-lg="row wrap"
+    class="review-box"
   >
-    <mat-card class="review-card">
-      <div id="card-header" style="height: 75%">
-        <h3 class="book-title mat-h3 mat-subheading-2">
-          {{ review.bookTitle }}
-        </h3>
+    <div
+      fxFlex.lt-md="50"
+      fxFlex.lt-lg="33"
+      fxFlex.lt-xl="25"
+      fxFlex.gt-lg="20"
+      class="review"
+      *cdkVirtualFor="let review of reviews"
+    >
+      <div *ngIf="review">
+        <mat-card class="review-card">
+          <div id="card-header" style="height: 75%">
+            <h3 class="book-title mat-h3 mat-subheading-2">
+              {{ review.bookTitle }}
+            </h3>
 
-        <p class="review-info mat-body mat-body-1">{{ review.review }}</p>
+            <p class="review-info mat-body mat-body-1">{{ review.review }}</p>
+          </div>
+
+          <div
+            id="card-info"
+            style="display: flex; height: 15%; margin-top: 1rem"
+          >
+            <mat-card-actions>
+              <button
+                mat-button="mat-button"
+                (click)="addReviewToFavorites(i)"
+                title="Curtir"
+                *ngIf="isAuthenticated && !canEditReview"
+              >
+                <mat-icon color="{{ review.favorites > 0 ? 'warn' : 'basic' }}"
+                  >favorite</mat-icon
+                >
+                <span *ngIf="review.favorites > 0">{{ review.favorites }}</span>
+              </button>
+              <button
+                mat-button="mat-button"
+                (click)="seeReview(i)"
+                title="Ver resenha"
+              >
+                <mat-icon>preview</mat-icon>
+              </button>
+              <button
+                mat-button="mat-button"
+                (click)="editReview(i)"
+                *ngIf="canEditReview"
+                title="Editar"
+              >
+                <mat-icon>mode_edit</mat-icon>
+              </button>
+              <button
+                mat-button="mat-button"
+                (click)="deleteReview(i)"
+                *ngIf="canEditReview"
+                title="Excluir"
+              >
+                <mat-icon>delete</mat-icon>
+              </button>
+            </mat-card-actions>
+          </div>
+
+          <div id="card-bottom" style="display: flex; height: 10%">
+            <div id="date" style="width: 60%">
+              <span class="mat-small mat-caption">
+                {{ review.insertDate | date: "dd/MM/yyyy HH:mm" }}
+              </span>
+            </div>
+
+            <div id="nickname" style="width: 40%; text-align: right">
+              <span
+                class="mat-small mat-caption"
+                style="cursor: pointer"
+                [routerLink]="['/user/profile']"
+                [queryParams]="{ userId: review.userId }"
+                >{{ review.nickname }}</span
+              >
+            </div>
+          </div>
+        </mat-card>
       </div>
-
-      <div id="card-info" style="display: flex; height: 15%; margin-top: 1rem">
-        <mat-card-actions>
-          <button
-            mat-button="mat-button"
-            (click)="addReviewToFavorites(i)"
-            title="Curtir"
-            *ngIf="isAuthenticated && !canEditReview"
-          >
-            <mat-icon color="{{ review.favorites > 0 ? 'warn' : 'basic' }}"
-              >favorite</mat-icon
-            >
-            <span *ngIf="review.favorites > 0">{{ review.favorites }}</span>
-          </button>
-          <button
-            mat-button="mat-button"
-            (click)="seeReview(i)"
-            title="Ver resenha"
-          >
-            <mat-icon>preview</mat-icon>
-          </button>
-          <button
-            mat-button="mat-button"
-            (click)="editReview(i)"
-            *ngIf="canEditReview"
-            title="Editar"
-          >
-            <mat-icon>mode_edit</mat-icon>
-          </button>
-          <button
-            mat-button="mat-button"
-            (click)="deleteReview(i)"
-            *ngIf="canEditReview"
-            title="Excluir"
-          >
-            <mat-icon>delete</mat-icon>
-          </button>
-        </mat-card-actions>
-      </div>
-
-      <div id="card-bottom" style="display: flex; height: 10%">
-        <div id="date" style="width: 60%">
-          <span class="mat-small mat-caption">
-            {{ review.insertDate | date: "dd/MM/yyyy HH:mm" }}
-          </span>
-        </div>
-
-        <div id="nickname" style="width: 40%; text-align: right">
-          <span
-            class="mat-small mat-caption"
-            style="cursor: pointer"
-            [routerLink]="['/user/profile']"
-            [queryParams]="{ userId: review.userId }"
-            >{{ review.nickname }}</span
-          >
-        </div>
-      </div>
-    </mat-card>
+      <div *ngIf="!review">Carregando ...</div>
+    </div>
   </div>
-</div>
+</cdk-virtual-scroll-viewport>
