@@ -24,7 +24,6 @@ export class BookService {
       nickname: book.user ? book.user.nickname : null,
       userId: book.userId,
       readStatus: book.readStatus,
-      insertDate: this.utilsService.convertObjetIdToDate(book.id),
       publisher: book.publisher
     };
   }

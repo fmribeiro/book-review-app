@@ -21,7 +21,7 @@ export class ReviewEditComponent implements OnInit {
     review: '',
     insertDate: '',
     bookTitle: '',
-    favorites: 0
+    likes: 0
   };
   startEditing = false;
   allBooksRead: string[];

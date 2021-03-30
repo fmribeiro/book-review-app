@@ -2,9 +2,9 @@ export interface Review {
 
   id?: string;
   review: string;
-  insertDate: string;
+  insertDate?: string;
   bookTitle: string;
-  favorites?: number;
+  likes?: number;
   nickname?: string;
   userId?: string;
 

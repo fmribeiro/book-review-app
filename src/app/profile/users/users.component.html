@@ -1,5 +1,12 @@
 <!-- Conteudo -->
-<div style="margin-left: 10px; margin-top: 10px" *ngIf="users.length < 1">
+<div *ngIf="isLoading" style="text-align: center">
+  <app-loading-spinner></app-loading-spinner>
+</div>
+
+<div
+  style="margin-left: 10px; margin-top: 10px"
+  *ngIf="users.length < 1 && !isLoading"
+>
   <h3>Nenhum usuário foi adicionado a lista</h3>
 </div>
 
@@ -34,7 +41,7 @@
       <mat-card class="user-card">
         <div class="card-header">
           <mat-card-title class="one-word-per-line">
-            <a [routerLink]="['/users/profile']" [queryParams]="{ user: i }">{{
+            <a [routerLink]="['/users/profile']" [state]="{ user: user }">{{
               user.name
             }}</a>
           </mat-card-title>
@@ -62,7 +69,7 @@
             </button>
 
             <button
-              *ngIf="!canFollow"
+              *ngIf="user.isFollowingUser || !canFollow"
               mat-button
               title="Deixar de seguir"
               (click)="unfollowUser(i)"

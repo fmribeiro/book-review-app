@@ -2,7 +2,7 @@ import { UtilsService } from './../../shared/services/utils.service';
 import { Component, OnInit, Input, ViewChild, AfterViewInit } from '@angular/core';
 import { UserService } from '../../shared/services/users.service';
 import { User } from '../../shared/models/user.model';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { CdkVirtualScrollViewport } from '@angular/cdk/scrolling';
 
 @Component({
@@ -22,11 +22,13 @@ export class UsersComponent implements OnInit, AfterViewInit {
   canEditBook = false;
   currentPath = '';
   isPageable = false;
+  isLoading = false;
 
   constructor(
     private userService: UserService,
     private activatedRoute: ActivatedRoute,
-    private utilsService: UtilsService) {
+    private utilsService: UtilsService,
+    private router: Router) {
 
     this.activatedRoute.url.subscribe(params => {
       this.currentPath = params[0].path;
@@ -68,10 +70,12 @@ export class UsersComponent implements OnInit, AfterViewInit {
   getUsers(size: number = 10): void {
     this.canFollow = true;
     this.isPageable = true;
-    const loggedUser = this.userService.getCurrentUser();
+    this.isLoading = true;
+    const loggedUser = this.utilsService.getLoggedUser();
 
     this.userService.fetchUsers(this.currentPage, size).subscribe(
       response => {
+        this.isLoading = false;
         this.users = this.users.concat(response.items);
         this.totalPages = response.totalPages;
         this.users.forEach((user, position) => {
@@ -86,16 +90,24 @@ export class UsersComponent implements OnInit, AfterViewInit {
             }
           }
         });
+      },
+      error => {
+        this.isLoading = false;
       }
     );
   }
 
   getFollowingUsers(): void {
     this.canFollow = false;
+    this.isLoading = true;
     this.userService.mountFollowUsersProfile(this.utilsService.getLoggedUserId())
       .subscribe(
         response => {
+          this.isLoading = false;
           this.users = response;
+        },
+        error => {
+          this.isLoading = false;
         }
       );
   }
@@ -105,6 +117,7 @@ export class UsersComponent implements OnInit, AfterViewInit {
     this.userService.getCurrentUserById().subscribe(
       user => {
         const loggedUser = user;
+        userToFollow.isFollowingUser = true;
         loggedUser.following.push(userToFollow.id);
         this.userService.updateUser(loggedUser);
         this.utilsService.showAlertMessage('Adicionado com sucesso!');
@@ -112,25 +125,26 @@ export class UsersComponent implements OnInit, AfterViewInit {
     );
   }
 
-  async unfollowUser(index: number): Promise<void> {
+  unfollowUser(index: number): void {
     const userToUnfollow = this.users[index];
     let loggedUser;
     this.userService.getCurrentUserById().subscribe(
       user => {
         loggedUser = user;
+        loggedUser.following.forEach((id, position) => {
+          if (id === userToUnfollow.id) {
+            loggedUser.following.splice(position, 1);
+          }
+        });
+        this.userService.updateUser(loggedUser);
+        this.users.splice(index, 1);
+        this.users = [...this.users];
+        this.utilsService.showAlertMessage('Removido com sucesso!');
+      },
+      error => {
+        this.utilsService.showAlertMessage('Não foi possivel remover o usuário!');
       }
     );
-
-    loggedUser.following.forEach((id, position) => {
-      if (id === userToUnfollow.id) {
-        loggedUser.following.splice(position, 1);
-      }
-    });
-    this.userService.updateUser(loggedUser);
-    this.users.splice(index, 1);
-    this.users = [...this.users];
-    this.utilsService.showAlertMessage('Removido com sucesso!');
   }
-
 
 }

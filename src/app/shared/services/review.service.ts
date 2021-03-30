@@ -30,9 +30,8 @@ export class ReviewService {
     return {
       id: review.id,
       review: review.review,
-      insertDate: this.utilsService.convertObjetIdToDate(review.id),
       bookTitle: review.bookTitle,
-      favorites: review.likes,
+      likes: review.likes,
       nickname: review.user ? review.user.nickname : null,
       userId: review.user ? review.user.id : null
     };
@@ -44,7 +43,7 @@ export class ReviewService {
       review: review.review.review,
       insertDate: this.utilsService.convertObjetIdToDate(review.id),
       bookTitle: review.review.bookTitle,
-      favorites: review.review.likes,
+      likes: review.review.likes,
       nickname: review.user ? review.user.nickname : null,
       userId: review.user ? review.user.id : null
     };

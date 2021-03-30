@@ -91,16 +91,30 @@ export class BooksComponent implements OnInit, AfterViewInit {
 
   getReadBooks(): void {
     this.canEditBook = true;
-    this.bookService.fetchReadBooks().subscribe(books => {
-      this.books = books;
-    });
+    this.isLoading = true;
+    this.bookService.fetchReadBooks().subscribe(
+      response => {
+        this.books = response;
+        this.isLoading = false;
+      },
+      error => {
+        this.isLoading = false;
+      }
+    );
   }
 
   getBooksWishlist(): void {
     this.canEditBook = true;
-    this.bookService.fetchBooksWishlist().subscribe(books => {
-      this.books = books;
-    });
+    this.isLoading = true;
+    this.bookService.fetchBooksWishlist().subscribe(
+      response => {
+        this.books = response;
+        this.isLoading = false;
+      },
+      error => {
+        this.isLoading = false;
+      }
+    );
   }
 
   deleteBook(index: number): void {

@@ -1,4 +1,11 @@
-<div style="margin-left: 10px; margin-top: 10px" *ngIf="books.length < 1">
+<div *ngIf="isLoading" style="text-align: center">
+  <app-loading-spinner></app-loading-spinner>
+</div>
+
+<div
+  style="margin-left: 10px; margin-top: 10px"
+  *ngIf="books.length < 1 && !isLoading"
+>
   <h3 class="mat-h3 mat-subheading-2">Nenhum livro foi adicionado</h3>
 </div>
 
@@ -91,7 +98,7 @@
           >
             <div id="date" style="width: 50%">
               <span class="mat-small mat-caption">{{
-                book.insertDate | date: "dd/MM/yyyy HH:mm"
+                book.id | objectidToDate | date: "dd/MM/yyyy HH:mm"
               }}</span>
             </div>
 

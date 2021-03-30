@@ -38,10 +38,16 @@ export class UserProfileComponent implements OnInit {
   }
 
 
-  ngOnInit() {
-
+  ngOnInit(): void {
+    const historyState = window.history.state;
+    this.getDataFromHistory(historyState);
   }
 
+  getDataFromHistory(state: any): void {
+    if (state.user) {
+      this.user = state.user;
+    }
+  }
   mountUserProfile(userId: string): void {
     this.userService.mountUserProfile(userId).subscribe(
       response => {

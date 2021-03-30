@@ -134,25 +134,31 @@ export class ReviewsComponent implements OnInit, AfterViewInit {
   }
 
   getUserFavoritesReviews(): void {
+    this.isLoading = true;
     this.reviewService.fetchUserFavoritesReviews().subscribe(
       response => {
         this.reviews = response;
+        this.isLoading = false;
       },
       error => {
         this.reviews = [];
+        this.isLoading = false;
       }
     );
   }
 
   getUserReviews(): void {
     this.canEditReview = false;
+    this.isLoading = true;
     this.reviewService.fetchUserReviews().subscribe(
       response => {
         this.reviews = response;
         this.canEditReview = !this.canEditReview;
+        this.isLoading = false;
       },
       error => {
         this.reviews = [];
+        this.isLoading = false;
       }
     );
   }
@@ -183,10 +189,10 @@ export class ReviewsComponent implements OnInit, AfterViewInit {
 
     this.reviewService.addReviewToFavorites(likedReview).subscribe(
       response => {
-        this.reviews[index].favorites += 1;
+        this.reviews[index].likes += 1;
       },
       error => {
-        this.reviews[index].favorites -= 1;
+        this.reviews[index].likes -= 1;
       }
     );
   }
@@ -209,22 +215,21 @@ export class ReviewsComponent implements OnInit, AfterViewInit {
     );
   }
 
-
   seeReview(index: number): void {
     this.review = this.reviews[index];
     this.router.navigate(['/reviews/details'], { state: { review: this.review } });
     this.user = null;
   }
 
-  getFollowUsersReviews() {
+  getFollowUsersReviews(): void {
     this.userService
       .mountFollowUsersProfile(this.utilsService.getLoggedUserId())
       .subscribe(users => {
         users.map(user => {
           user.reviews.map(review => {
+            review.insertDate = this.utilsService.convertObjetIdToDate(review.id);
             review.nickname = user.nickname;
-            this.reviews.push(review);
-            this.reviews = [...this.reviews];
+            this.reviews = [...this.reviews, review];
           });
         });
       });

@@ -4,7 +4,7 @@
 
 <div
   style="margin-left: 10px; margin-top: 10px"
-  *ngIf="!startReviewSearch && reviews.length < 1"
+  *ngIf="!startReviewSearch && reviews.length < 1 && !isLoading"
 >
   <h3 class="mat-h3 mat-subheading-2">Nenhuma resenha foi adicionada</h3>
 </div>
@@ -75,10 +75,10 @@
                 [disabled]="!isAuthenticated"
                 *ngIf="!canEditReview"
               >
-                <mat-icon color="{{ review.favorites > 0 ? 'warn' : 'basic' }}"
+                <mat-icon color="{{ review.likes > 0 ? 'warn' : 'basic' }}"
                   >favorite</mat-icon
                 >
-                <span *ngIf="review.favorites > 0">{{ review.favorites }}</span>
+                <span *ngIf="review.likes > 0">{{ review.likes }}</span>
               </button>
               <button
                 mat-button="mat-button"
@@ -109,7 +109,7 @@
           <div id="card-bottom" style="display: flex; height: 10%">
             <div id="date" style="width: 60%">
               <span class="mat-small mat-caption">
-                {{ review.insertDate | date: "dd/MM/yyyy HH:mm" }}
+                {{ review.id | objectidToDate | date: "dd/MM/yyyy HH:mm" }}
               </span>
             </div>
 

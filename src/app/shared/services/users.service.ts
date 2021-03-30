@@ -21,7 +21,6 @@ export class UserService {
       name: user.name,
       nickname: user.nickname,
       idToken: user.idToken,
-      insertDate: user.insertDate,
       following: user.following ? user.following : []
     };
   }
@@ -145,7 +144,7 @@ export class UserService {
           return this.mountUser(user);
         }),
         tap(user => {
-          this.currentUser = user;
+          this.saveUserInfoLocally(user);
         })
       );
   }
@@ -163,7 +162,6 @@ export class UserService {
         }),
         tap(user => {
           this.saveUserInfoLocally(user);
-          this.currentUser = user;
         })
       );
   }
@@ -171,6 +169,7 @@ export class UserService {
   saveUserInfoLocally(user: any): void {
     const loggedUser = this.mountUser(user);
     localStorage.setItem('loggedUser', JSON.stringify(loggedUser));
+    this.currentUser = loggedUser;
   }
 
   getUsers(): User[] {
