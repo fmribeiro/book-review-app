@@ -12,7 +12,15 @@ import { UserService } from '../../../shared/services/users.service';
 })
 export class UserProfileComponent implements OnInit {
 
-  user: User;
+  user: User = {
+    id: '',
+    name: '',
+    nickname: '',
+    idToken: '',
+    books: [],
+    reviews: [],
+    usersFollowing: []
+  };
   index = 0;
 
   constructor(

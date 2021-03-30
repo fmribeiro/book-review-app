@@ -17,8 +17,19 @@ const routes: Routes = [
   { path: '', redirectTo: '/reviews/recent', pathMatch: 'full' },
   {
     path: 'users',
-    component: UsersComponent,
-    data: { breadcrumb: 'Leitores' }
+    data: { breadcrumb: '' },
+    children: [
+      {
+        path: 'home',
+        component: UsersComponent,
+        data: { breadcrumb: 'Leitores' },
+      },
+      {
+        path: 'profile',
+        component: UserProfileComponent,
+        data: { breadcrumb: 'Perfil leitor' }
+      }
+    ]
   },
   {
     path: 'reviews',
@@ -101,11 +112,6 @@ const routes: Routes = [
         path: 'messages',
         component: MessagesComponent,
         data: { breadcrumb: 'Mensagens' }
-      },
-      {
-        path: 'profile',
-        component: UserProfileComponent,
-        data: { breadcrumb: 'Perfil leitor' }
       }
     ]
   },

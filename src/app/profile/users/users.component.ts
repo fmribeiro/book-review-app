@@ -46,10 +46,7 @@ export class UsersComponent implements OnInit, AfterViewInit {
   onScroll(): void {
     const scrollOffset = Math.round(this.virtualScroll.measureScrollOffset('bottom'));
     const isLastPage = this.currentPage >= this.totalPages - 1;
-    // console.log('scrollOffset: ' + scrollOffset);
     if (this.isPageable && scrollOffset < 5 && !isLastPage) {
-      console.log('nova busca...');
-      console.log('totalItems: ' + this.users.length);
       this.currentPage = this.currentPage + 1;
       this.solveRoutes(this.currentPath);
     }
@@ -57,7 +54,7 @@ export class UsersComponent implements OnInit, AfterViewInit {
 
   solveRoutes(route: string): void {
     switch (route) {
-      case 'users': {
+      case 'home': {
         this.getUsers();
         break;
       }
@@ -131,6 +128,7 @@ export class UsersComponent implements OnInit, AfterViewInit {
     });
     this.userService.updateUser(loggedUser);
     this.users.splice(index, 1);
+    this.users = [...this.users];
     this.utilsService.showAlertMessage('Removido com sucesso!');
   }
 

@@ -3,7 +3,7 @@
   <a mat-list-item routerLink="/reviews/recent">Resenhas recém criadas</a>
   <a mat-list-item routerLink="/reviews/liked">Resenhas mais curtidas</a>
   <a mat-list-item routerLink="/books/recent">Livros recém lidos</a>
-  <a mat-list-item routerLink="/users">Leitores</a>
+  <a mat-list-item routerLink="/users/home">Leitores</a>
 </mat-nav-list>
 
 <mat-nav-list *ngIf="isAuthenticated">
@@ -11,7 +11,7 @@
   <a mat-list-item routerLink="/reviews/recent">Resenhas recém criadas</a>
   <a mat-list-item routerLink="/reviews/liked">Resenhas mais curtidas</a>
   <a mat-list-item routerLink="/books/recent">Livros recém lidos</a>
-  <a mat-list-item routerLink="/users">Leitores</a>
+  <a mat-list-item routerLink="/users/home">Leitores</a>
   <mat-divider></mat-divider>
   <h3 mat-subheader>Meu Perfil</h3>
   <a mat-list-item routerLink="user/reviews/favorites">Resenhas favoritas</a>

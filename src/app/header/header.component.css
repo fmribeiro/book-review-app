@@ -11,3 +11,25 @@
 .mobile-form {
   width: 95%;
 }
+
+#logo {
+  display: flex;
+  height: 5vh;
+  width: 20vh;
+  flex-direction: row;
+  cursor: pointer;
+  outline: none;
+}
+
+#img-logo {
+  height: 3vh;
+  margin-top: 0.6vh;
+}
+
+#site-name {
+  display: flex;
+  height: 5vh;
+  width: 15vh;
+  flex-direction: column;
+  margin-left: 0.5vh;
+}

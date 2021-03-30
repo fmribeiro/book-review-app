@@ -8,7 +8,7 @@ import { User } from '../../../shared/models/user.model';
 })
 export class FollowingUsersComponent implements OnInit {
 
-  @Input() users: User[];
+  @Input() users: User[] = [];
 
   constructor() { }
 

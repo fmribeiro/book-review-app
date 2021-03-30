@@ -1,4 +1,4 @@
-<div style="margin-left: 10px; margin-top: 10px" *ngIf="!books">
+<div style="margin-left: 10px; margin-top: 10px" *ngIf="books.length < 1">
   <h3 class="mat-h3 mat-subheading-2">Nenhum livro foi adicionado</h3>
 </div>
 
@@ -95,11 +95,12 @@
               }}</span>
             </div>
 
-            <div id="nickname" style="width: 50%; text-align: right">
+            <div style="width: 50%; text-align: right">
               <span
+                id="nickname"
+                style="outline: none"
                 class="mat-small mat-caption"
-                style="cursor: pointer"
-                [routerLink]="['/user/profile']"
+                [routerLink]="['/users/profile']"
                 [queryParams]="{ userId: book.userId }"
                 >{{ book.nickname }}</span
               >

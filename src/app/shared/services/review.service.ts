@@ -115,7 +115,7 @@ export class ReviewService {
   }
 
   fetchUserFavoritesReviews(): Observable<Review[]> {
-    const url = this.utilsService.getApiURL() + '/liked-reviews/user' + this.utilsService.getLoggedUserId();
+    const url = this.utilsService.getApiURL() + '/liked-reviews/user/' + this.utilsService.getLoggedUserId();
     return this.http
       .get<any[]>(
         url
@@ -212,11 +212,9 @@ export class ReviewService {
   }
 
 
-  deleteReview(reviewId: string) {
+  deleteReview(reviewId: string): Observable<any> {
     const url = this.utilsService.getApiURL() + '/reviews/' + reviewId;
-    this.http.delete(url)
-      .subscribe(response => {
-      });
+    return this.http.delete(url);
   }
 
 

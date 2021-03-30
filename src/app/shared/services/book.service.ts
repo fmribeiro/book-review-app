@@ -1,13 +1,13 @@
-import { HttpClient } from "@angular/common/http";
-import { Injectable } from "@angular/core";
-import { Observable } from "rxjs";
-import { catchError, map, tap } from "rxjs/operators";
+import { HttpClient } from '@angular/common/http';
+import { Injectable } from '@angular/core';
+import { Observable } from 'rxjs';
+import { catchError, map, tap } from 'rxjs/operators';
 
-import { Book } from "../models/book.model";
-import { PageableSearch } from "../models/pageableSearch.model";
-import { UtilsService } from "./utils.service";
+import { Book } from '../models/book.model';
+import { PageableSearch } from '../models/pageableSearch.model';
+import { UtilsService } from './utils.service';
 
-@Injectable({ providedIn: "root" })
+@Injectable({ providedIn: 'root' })
 export class BookService {
   private books: Book[] = [];
 
@@ -91,7 +91,7 @@ export class BookService {
   }
 
   createNewBook(book: Book): Observable<Book> {
-    const url = this.utilsService.getApiURL() + "/books";
+    const url = this.utilsService.getApiURL() + '/books';
     return this.http.post(url, book).pipe(
       catchError(this.utilsService.handleError),
       map(savedBook => {
@@ -101,11 +101,14 @@ export class BookService {
   }
 
   updateBook(book: Book): Observable<Book> {
-    const url = this.utilsService.getApiURL() + "/books";
+    const url = this.utilsService.getApiURL() + '/books';
     return this.http.put(url, book).pipe(
       catchError(this.utilsService.handleError),
       map(savedBook => {
         return this.mountBook(savedBook);
+      }),
+      tap(savedBook => {
+        this.books.push(savedBook);
       })
     );
   }

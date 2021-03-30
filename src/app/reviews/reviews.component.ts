@@ -197,9 +197,18 @@ export class ReviewsComponent implements OnInit, AfterViewInit {
 
   deleteReview(index: number): void {
     const editReview = this.reviews[index];
-    this.reviewService.deleteReview(editReview.id);
-    this.reviews.splice(index, 1);
+    this.reviewService.deleteReview(editReview.id).subscribe(
+      response => {
+        this.reviews.splice(index, 1);
+        this.reviews = [...this.reviews];
+        this.utilsService.showAlertMessage('Resenha excluida com sucesso!');
+      },
+      error => {
+        this.utilsService.showAlertMessage('Não foi possível excluir a resenha');
+      }
+    );
   }
+
 
   seeReview(index: number): void {
     this.review = this.reviews[index];
@@ -215,6 +224,7 @@ export class ReviewsComponent implements OnInit, AfterViewInit {
           user.reviews.map(review => {
             review.nickname = user.nickname;
             this.reviews.push(review);
+            this.reviews = [...this.reviews];
           });
         });
       });

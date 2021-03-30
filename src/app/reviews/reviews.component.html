@@ -2,7 +2,10 @@
   <app-loading-spinner></app-loading-spinner>
 </div>
 
-<div style="margin-left: 10px; margin-top: 10px" *ngIf="reviews.length < 1">
+<div
+  style="margin-left: 10px; margin-top: 10px"
+  *ngIf="!startReviewSearch && reviews.length < 1"
+>
   <h3 class="mat-h3 mat-subheading-2">Nenhuma resenha foi adicionada</h3>
 </div>
 
@@ -44,11 +47,11 @@
   >
     <div
       fxFlex.lt-md="50"
-      fxFlex.lt-lg="33"
+      fxFlex.lt-lg="50"
       fxFlex.lt-xl="25"
       fxFlex.gt-lg="20"
       class="review"
-      *cdkVirtualFor="let review of reviews"
+      *cdkVirtualFor="let review of reviews; let i = index"
     >
       <div *ngIf="review">
         <mat-card class="review-card">
@@ -69,7 +72,8 @@
                 mat-button="mat-button"
                 (click)="addReviewToFavorites(i)"
                 title="Curtir"
-                *ngIf="isAuthenticated && !canEditReview"
+                [disabled]="!isAuthenticated"
+                *ngIf="!canEditReview"
               >
                 <mat-icon color="{{ review.favorites > 0 ? 'warn' : 'basic' }}"
                   >favorite</mat-icon
@@ -109,11 +113,12 @@
               </span>
             </div>
 
-            <div id="nickname" style="width: 40%; text-align: right">
+            <div style="width: 40%; text-align: right">
               <span
+                id="nickname"
+                style="outline: none"
                 class="mat-small mat-caption"
-                style="cursor: pointer"
-                [routerLink]="['/user/profile']"
+                [routerLink]="['/users/profile']"
                 [queryParams]="{ userId: review.userId }"
                 >{{ review.nickname }}</span
               >

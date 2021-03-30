@@ -108,6 +108,7 @@ export class BooksComponent implements OnInit, AfterViewInit {
     this.bookService.deleteBook(book.id).subscribe(
       response => {
         this.books.splice(index, 1);
+        this.books = [...this.books];
         this.utilsService.showAlertMessage('Livro excluido com sucesso!');
       },
       error => {
@@ -118,6 +119,7 @@ export class BooksComponent implements OnInit, AfterViewInit {
 
   setBookAsRead(index: number): void {
     const book = this.books[index];
+    book.insertDate = null;
     book.readStatus = 'lido';
     this.bookService.updateBook(book).subscribe(
       response => {
