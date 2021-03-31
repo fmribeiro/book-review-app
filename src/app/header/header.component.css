@@ -19,17 +19,22 @@
   flex-direction: row;
   cursor: pointer;
   outline: none;
+  height: 100%;
 }
 
 #img-logo {
   height: 3vh;
-  margin-top: 0.6vh;
+  margin-top: 2.4vh;
 }
 
-#site-name {
+#site-title-box {
   display: flex;
   height: 5vh;
   width: 15vh;
   flex-direction: column;
-  margin-left: 0.5vh;
+  margin-left: 0.1vh;
+}
+
+.site-title {
+  margin-top: 1.9vh;
 }
