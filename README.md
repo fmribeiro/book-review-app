@@ -1,6 +1,7 @@
 # BookReview
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 10.0.5.
+Esse projeto foi feito usando angular 10 com angular material. Trata-se de uma aplicação para avaliação de livros lidos, nela o usuário cadastra o livro lido e faz uma resenha do livro. É possível ver o perfil de outros leitores, enviar mensagens.
+A idéia é mostrar o que eu conheço de angular, na aplicação é possivel fazer incluir, editar e excluir.
 
 ## Development server
 
