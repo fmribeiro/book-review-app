@@ -1,7 +1,7 @@
 # BookReview
 
 Esse projeto foi feito usando angular 10 com angular material. Trata-se de uma aplicação para avaliação de livros lidos, nela o usuário cadastra o livro lido e faz uma resenha do livro. É possível ver o perfil de outros leitores, enviar mensagens.
-A idéia é mostrar o que eu conheço de angular, na aplicação é possivel fazer incluir, editar e excluir.
+A idéia é mostrar o que eu conheço de angular, na aplicação é possivel incluir, editar e excluir.
 
 ## Development server
 
