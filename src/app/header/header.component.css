@@ -24,7 +24,7 @@
 
 #img-logo {
   height: 3vh;
-  margin-top: 2.4vh;
+  margin-top: 2vh;
 }
 
 #site-title-box {
@@ -36,5 +36,10 @@
 }
 
 .site-title {
-  margin-top: 1.9vh;
+  margin-top: 1.7vh;
+}
+
+.site-desc {
+  font-size: xx-small;
+  margin-top: -3vh;
 }
